@@ -1,9 +1,10 @@
-local telescope = require("telescope")
 local succeeded, telescope = pcall(require, "telescope")
-if not suceeded then
+if not succeeded then
     print("failed to load telescope")
     return
 end
+
+local fb_actions = require("telescope").extensions.file_browser.actions
 
 -- setup telesope
 telescope.setup({
@@ -16,5 +17,11 @@ telescope.setup({
         -- the window width
         layout_strategy = 'flex',
     },
+    extensions = {
+        file_browser = {
+            theme = "dropdown",
+            -- disables netrw and use telescope-file-browser in its place
+            hijack_netrw = true,
+        },
+    },
 })
-

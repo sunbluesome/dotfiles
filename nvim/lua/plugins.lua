@@ -64,17 +64,32 @@ packer.startup({
                 {'kyazdani42/nvim-web-devicons', opt = true },
             },
         }
+        use { "nvim-telescope/telescope-file-browser.nvim" }
 
         -- colorscheme
         use { "EdenEast/nightfox.nvim" }
 
         -- LSP
         -- Easily install and manage LSP servers, DAP servers, linters, and formatters.
-        use { "williamboman/mason.nvim"}
+        use { "williamboman/mason.nvim" }
         use { "williamboman/mason-lspconfig.nvim" }
         use { "neovim/nvim-lspconfig" } -- enable LSP
         use { "mfussenegger/nvim-dap" } -- debug adaptor protocol
         use { "jose-elias-alvarez/null-ls.nvim" } -- formatter and linter
+
+        -- Completion
+        use { "hrsh7th/nvim-cmp" } -- The completion plugin
+        use { "hrsh7th/cmp-nvim-lsp" } -- source for neovim's built-in lsp
+        use { "hrsh7th/cmp-nvim-lua" } -- source for neovim's Lua api
+        use { "hrsh7th/cmp-buffer" } -- buffer completions
+        use { "hrsh7th/cmp-path" } -- path completions
+        use { "hrsh7th/cmp-cmdline" } -- cmdline completions
+        use { "saadparwaiz1/cmp_luasnip" } -- snippet completions
+        -- requires nvim-lua/plenary.nvim but already installed above.
+        use { "petertriho/cmp-git" } -- git completions,
+        -- use { "windwp/nvim-autopaires", config = function()
+        --     require("nvim-autopairs").setup {}
+        -- end }
 
 
         if packer_bootstrap then

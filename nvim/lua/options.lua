@@ -24,7 +24,7 @@ options_file = {
 }
 
 options_edit = {
-    smartindent = true,
+    smartindent = false,
     pumheight = 10,
     showmatch = true,
     matchtime = 1,
@@ -35,7 +35,6 @@ options_edit = {
     tabstop = 4,
     shiftwidth = 4,
     autoindent = true,
-    smartindent = true,
     colorcolumn = "88",
 }
 

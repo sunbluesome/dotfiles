@@ -26,4 +26,3 @@ else
     echo "\n# ripgrep" >> ${HOME}/.zshrc
     echo 'export PATH=$PATH:'$PATH_RIPGREP >> ${HOME}/.zshrc
 fi
-
