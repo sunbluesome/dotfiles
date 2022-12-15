@@ -49,10 +49,6 @@ local function lsp_highlight_document(client)
     end
 end
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-
-
 -- LSP setup ----------------------------------
 local M = {}
 
@@ -103,6 +99,8 @@ M.on_attach = function(client, bufnr)
     lsp_highlight_document(client)
 end
 
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
 M.capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 
 return M

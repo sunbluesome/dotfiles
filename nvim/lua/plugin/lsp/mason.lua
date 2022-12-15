@@ -21,9 +21,8 @@ local opts = {
     capabilities = require("plugin.lsp.handlers").capabilities,
 }
 
-local lspconfig = require("lspconfig")
-
 -- After setting up mason-lspconfig you may set up servers
+local lspconfig = require("lspconfig")
 require("mason-lspconfig").setup_handlers {
     -- The first entry (without a key) will be the default handler
     -- and will be called for each installed server that doesn't have
@@ -31,11 +30,8 @@ require("mason-lspconfig").setup_handlers {
     function(server_name) -- default handler (optional)
         require("lspconfig")[server_name].setup {}
     end,
+
     -- Next, you can provide a dedicated handler for specific servers.
-    -- For example, a handler override for the `rust_analyzer`:
-    -- ["rust_analyzer"] = function ()
-    --     require("rust-tools").setup {}
-    -- end
     ["sumneko_lua"] = function()
         local sumneko_opts = require("plugin.lsp.settings.sumneko_lua")
         opts = vim.tbl_deep_extend("force", sumneko_opts, opts)
@@ -45,6 +41,6 @@ require("mason-lspconfig").setup_handlers {
     ["pyright"] = function()
         local pyright_opts = require("plugin.lsp.settings.pyright")
         opts = vim.tbl_deep_extend("force", pyright_opts, opts)
-        lspconfig.sumneko_lua.setup(opts)
+        lspconfig.pyright.setup(opts)
     end,
 }
