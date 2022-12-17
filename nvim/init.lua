@@ -3,7 +3,9 @@ require("core.autocmds")
 require("core.keymaps")
 require("core.options")
 require("plugin.packer")
+
 local loader = require("core.config_loader")
+
 loader:load_configs({
     "plugin.statusline.lualine",
     "plugin.colorscheme.nightfox",
@@ -13,4 +15,6 @@ loader:load_configs({
     "plugin.lsp",
     "plugin.completion.cmp",
     "plugin.git.gitsigns",
+    "plugin.debugger",
 })
+

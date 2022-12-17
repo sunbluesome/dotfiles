@@ -1,4 +1,4 @@
-options_global = {
+local options_global = {
     background="dark",
     number = true,
     clipboard = "unnamedplus",
@@ -14,7 +14,7 @@ options_global = {
     foldlevel = 99,
 }
 
-options_file = {
+local options_file = {
     fenc = "utf-8",
     backup = false,
     swapfile = false,
@@ -23,7 +23,7 @@ options_file = {
     confirm = true,
 }
 
-options_edit = {
+local options_edit = {
     smartindent = false,
     pumheight = 10,
     showmatch = true,
@@ -38,7 +38,7 @@ options_edit = {
     colorcolumn = "88",
 }
 
-options_search = {
+local options_search = {
     ignorecase = true,
     smartcase = true,
     incsearch = true,
@@ -46,9 +46,20 @@ options_search = {
     hlsearch = true,
 }
 
+local options_terminal = {
+    modifiable = true,
+}
 
-options_table = {options_global, options_file, options_edit, options_search}
-for i, options in pairs(options_table) do
+
+local options_table = {
+    options_global,
+    options_file,
+    options_edit,
+    options_search,
+    options_terminal,
+}
+
+for _, options in pairs(options_table) do
     for k, v in pairs(options) do
         vim.opt[k] = v
     end

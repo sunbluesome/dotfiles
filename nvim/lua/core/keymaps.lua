@@ -37,6 +37,7 @@ Map("n", "j", "gj")
 Map("n", "k", "gk")
 Map("n", "Y", "y$")
 
+-- edit
 -- Navigate buffers
 Map("n", "<A-l>", ":bnext<CR>")
 Map("n", "<A-h>", ":bprevious<CR>")

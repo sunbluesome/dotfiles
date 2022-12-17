@@ -1,6 +1,8 @@
 local telescope = require("telescope")
+local actions = require("telescope.actions")
 local builtin = require("telescope.builtin")
-local dapui = require("dapui")
+local fb_actions = require("telescope").extensions.file_browser.actions
+
 
 -- `Map` is defined on core.keymaps.lua
 Map('n', '<leader>ff', builtin.find_files)
@@ -51,10 +53,34 @@ telescope.setup({
         -- Flex layout swaps between `horizontal` and `vertical` strategies based on
         -- the window width
         layout_strategy = 'flex',
+        layout_config = {
+            prompt_position = 'bottom'
+        },
+        mappings = {
+            i = {
+                ["<Tab>"] = actions.toggle_selection + actions.move_selection_worse,
+                ["<S-Tab>"] = actions.toggle_selection + actions.move_selection_better,
+            },
+            n = {
+                ["<esc>"] = actions.close,
+                ["q"] = actions.close,
+                ["<CR>"] = actions.select_default,
+                ["<Tab>"] = actions.toggle_selection + actions.move_selection_worse,
+                ["<S-Tab>"] = actions.toggle_selection + actions.move_selection_better,
+                ["j"] = actions.move_selection_next,
+                ["k"] = actions.move_selection_previous,
+                ["gg"] = actions.move_to_top,
+                ["G"] = actions.move_to_bottom,
+                ["<C-u>"] = actions.preview_scrolling_up,
+                ["<C-d>"] = actions.preview_scrolling_down,
+                ["?"] = actions.which_key,
+            }
+        },
     },
     extensions = {
         file_browser = {
             theme = "dropdown",
+            dir_icon = "",
             -- disables netrw and use telescope-file-browser in its place
             hijack_netrw = true,
         },

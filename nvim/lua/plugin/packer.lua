@@ -40,7 +40,6 @@ packer.startup({
         use 'wbthomason/packer.nvim'
 
         -- plugins
-        -- statusline
         use {
             'nvim-lualine/lualine.nvim',
             requires = {'kyazdani42/nvim-web-devicons', opt = true }
@@ -75,6 +74,7 @@ packer.startup({
         use { "williamboman/mason-lspconfig.nvim" }
         use { "neovim/nvim-lspconfig" } -- enable LSP
         use { "jose-elias-alvarez/null-ls.nvim" } -- formatter and linter
+        use("ray-x/lsp_signature.nvim") -- help with type hinting
 
         -- Completion
         use { "hrsh7th/nvim-cmp" } -- The completion plugin
@@ -103,9 +103,11 @@ packer.startup({
             require("toggleterm").setup()
         end}
 
-        -- Debugger
-        use { "mfussenegger/nvim-dap" } -- debug adaptor protocol
+        -- DAP (Debugger Adaptor Protocol)
+        use { "mfussenegger/nvim-dap" }
         use { "rcarriga/nvim-dap-ui" }
+        use("theHamsta/nvim-dap-virtual-text")
+        use("nvim-telescope/telescope-dap.nvim")
         use { "mfussenegger/nvim-dap-python" }
 
 
