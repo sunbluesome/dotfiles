@@ -1,7 +1,6 @@
 local telescope = require("telescope")
 local actions = require("telescope.actions")
 local builtin = require("telescope.builtin")
-local fb_actions = require("telescope").extensions.file_browser.actions
 
 
 -- `Map` is defined on core.keymaps.lua

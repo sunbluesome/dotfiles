@@ -15,6 +15,10 @@ loader:load_configs({
     "plugin.lsp",
     "plugin.completion.cmp",
     "plugin.git.gitsigns",
+    "plugin.git.diffview",
     "plugin.debugger",
+    "plugin.syntax.ts-rainbow",
+    "plugin.syntax.comment",
+    "plugin.terminal.toggleterm",
 })
 

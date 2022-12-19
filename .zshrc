@@ -21,11 +21,12 @@ export LDFLAGS="-L/usr/local/opt/bzip2/lib -L/usr/local/opt/zlib/lib"
 export CPPFLAGS="-I/usr/local/opt/bzip2/include -I/usr/local/opt/zlib/include"
 export PKG_CONFIG_PATH="/usr/local/opt/zlib/lib/pkgconfig"
 
+# XDG Base Directory Specification 
+export XDG_CONFIG_HOME=$HOME/.config
+mkdir -p $XDG_CONFIG_HOME
+
 # node
 export PATH=$HOME/.nodebrew/current/bin:$PATH
-
-# fuzzy finder
-#[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # pure
 autoload -U promptinit; promptinit
@@ -43,3 +44,5 @@ export PATH=$PATH:~/bin/nvim-macos/bin
 # ripgrep
 export PATH=$PATH:/Users/inoue/bin/ripgrep
 
+# lazygit
+export PATH=$PATH:/Users/inoue/bin/lazygit

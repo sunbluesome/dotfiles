@@ -45,7 +45,7 @@ packer.startup({
             requires = {'kyazdani42/nvim-web-devicons', opt = true }
         }
 
-        -- treesitter
+        -- treesitter -----------------------------------------------------------------
         use {
             'nvim-treesitter/nvim-treesitter',
             run = function()
@@ -54,8 +54,11 @@ packer.startup({
                 ts_update()
             end,
         }
+        -- bracket colorizer
+        use { "p00f/nvim-ts-rainbow" }
 
-        -- telescope
+
+        -- telescope ------------------------------------------------------------------
         use {
             "nvim-telescope/telescope.nvim",
             requires = {
@@ -65,16 +68,16 @@ packer.startup({
         }
         use { "nvim-telescope/telescope-file-browser.nvim" }
 
-        -- colorscheme
+        -- colorscheme ----------------------------------------------------------------
         use { "EdenEast/nightfox.nvim" }
 
-        -- LSP
+        -- LSP ------------------------------------------------------------------------
         -- Easily install and manage LSP servers, DAP servers, linters, and formatters.
         use { "williamboman/mason.nvim" }
         use { "williamboman/mason-lspconfig.nvim" }
         use { "neovim/nvim-lspconfig" } -- enable LSP
         use { "jose-elias-alvarez/null-ls.nvim" } -- formatter and linter
-        use("ray-x/lsp_signature.nvim") -- help with type hinting
+        use { "ray-x/lsp_signature.nvim" } -- help with type hinting
 
         -- Completion
         use { "hrsh7th/nvim-cmp" } -- The completion plugin
@@ -92,24 +95,33 @@ packer.startup({
         }
 
         -- snippets
-        use("L3MON4D3/LuaSnip") --snippet engine
-        use("rafamadriz/friendly-snippets") -- a bunch of snippets to use
+        use { "L3MON4D3/LuaSnip" } --snippet engine
+        use { "rafamadriz/friendly-snippets" } -- a bunch of snippets to use
 
         -- Git
-        use("lewis6991/gitsigns.nvim")
+        use { "lewis6991/gitsigns.nvim" }
+        -- Packer
+        use { "sindrets/diffview.nvim", requires = "nvim-lua/plenary.nvim" }
 
-        -- terminal
+        -- terminal -------------------------------------------------------------------
         use {"akinsho/toggleterm.nvim", tag = '*', config = function()
             require("toggleterm").setup()
         end}
 
-        -- DAP (Debugger Adaptor Protocol)
+        -- DAP (Debugger Adaptor Protocol) --------------------------------------------
         use { "mfussenegger/nvim-dap" }
         use { "rcarriga/nvim-dap-ui" }
-        use("theHamsta/nvim-dap-virtual-text")
-        use("nvim-telescope/telescope-dap.nvim")
+        use { "theHamsta/nvim-dap-virtual-text" }
+        use { "nvim-telescope/telescope-dap.nvim"}
         use { "mfussenegger/nvim-dap-python" }
 
+        -- Others
+        use {
+            "numToStr/Comment.nvim",
+            config = function()
+                require('Comment').setup()
+            end
+        }
 
         if packer_bootstrap then
             require('packer').sync()
