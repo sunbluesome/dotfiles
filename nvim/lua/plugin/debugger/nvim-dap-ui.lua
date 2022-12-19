@@ -92,5 +92,3 @@ dap.listeners.before.event_exited["dapui_config"] = function()
     dapui.close()
 end
 
-Map('n', '<leader>q', ':lua require("dap-ui").close()<CR>')
-
