@@ -23,8 +23,8 @@ else
     tar xzvf "${FILENAME}.tar.gz"
     mkdir -p $NVIM_HOME
     mv $FILENAME "${HOME}/bin"
-    rm -rf "${FILENAME}*"
 fi
+rm -rf "${FILENAME}*"
 
 # add neovim path
 if [[ "$PATH" =~ "$NVIM_HOME" ]];

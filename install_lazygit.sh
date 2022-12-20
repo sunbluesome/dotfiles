@@ -28,7 +28,7 @@ then
     echo "${PATH_LAZYGIT} already exist"
 else
     wget ${URL}
-    xattr -c ./${FILENAME}
+    # xattr -c ./${FILENAME}
     tar xzvf ${FILENAME}
     mkdir -p ${PATH_LAZYGIT}
     mv "lazygit" ${PATH_LAZYGIT}
