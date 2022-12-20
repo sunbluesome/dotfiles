@@ -15,8 +15,7 @@ NVIM_URL="https://github.com/neovim/neovim/releases/download/stable/${FILENAME}.
 NVIM_HOME="${HOME}/bin/${FILENAME}"
 
 # install neovim
-if [ -z $NVIM_HOME ]
-then
+if [ -z $NVIM_HOME ]; then
     echo "${NVIM_HOME} already exist"
 else
     wget $NVIM_URL
@@ -33,10 +32,10 @@ then
     echo "${NVIM_HOME} already exists in PATH"
 else
     # add path
-    if [ $OS == "macos" ] then
+    if [ $OS == "macos" ]; then
         echo "\n# neovim" >> ${HOME}/.zshrc
         echo 'export PATH=$PATH:'$NVIM_HOME/bin >> ${HOME}/.zshrc
-    elif [ $OS == "linux" ] then
+    elif [ $OS == "linux" ]; then
         echo "\n# neovim" >> ${HOME}/.bashrc
         echo 'export PATH=$PATH:'$NVIM_HOME/bin >> ${HOME}/.bashrc
     fi
