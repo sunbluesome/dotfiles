@@ -1,5 +1,17 @@
 #!/bin/bash
-URL="https://github.com/jesseduffield/lazygit/releases/download/v0.36.0/lazygit_0.36.0_Darwin_x86_64.tar.gz"
+
+if [ "$(uname)" == 'Darwin' ]; then
+    OS="macos"
+    FILENAME='Darwin'
+elif [ "$(expr substr $(uname -s) 1 5)" == 'Linux' ]; then
+    OS="linux"
+    FILENAME='Linux'
+else
+    echo "Your platform ($(uname -a)) is not supported."
+    exit 1
+fi
+
+URL="https://github.com/jesseduffield/lazygit/releases/download/v0.36.0/lazygit_0.36.0_${FILENAME}_x86_64.tar.gz"
 FILENAME=${URL##*/}
 FILENAME_WO_GZ=${FILENAME%.*}
 FILENAME_WO_TARGZ=${FILENAME_WO_GZ%.*}
@@ -29,6 +41,11 @@ then
     echo "${PATH_LAZYGIT} already exists in PATH"
 else
     # add path
-    echo "\n# lazygit" >> ${HOME}/.zshrc
-    echo 'export PATH=$PATH:'$PATH_LAZYGIT >> ${HOME}/.zshrc
+    if [ $OS == "macos" ]; then
+        echo "\n# lazygit" >> ${HOME}/.zshrc
+        echo 'export PATH=$PATH:'$PATH_LAZYGIT >> ${HOME}/.zshrc
+    elif [ $OS == "linux" ]; then
+        echo "\n# lazygit" >> ${HOME}/.bashrc
+        echo 'export PATH=$PATH:'$NVIM_HOME/bin >> ${HOME}/.bashrc
+    fi
 fi
