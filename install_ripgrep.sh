@@ -2,16 +2,16 @@
 
 if [ "$(uname)" == 'Darwin' ]; then
     OS="macos"
-    FILENAME='apple-darwin'
+    NAME='apple-darwin'
 elif [ "$(expr substr $(uname -s) 1 5)" == 'Linux' ]; then
     OS="linux"
-    FILENAME='unknown-linux-musl'
+    NAME='unknown-linux-musl'
 else
     echo "Your platform ($(uname -a)) is not supported."
     exit 1
 fi
 
-URL="https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep-13.0.0-x86_64-${FILENAME}.tar.gz"
+URL="https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep-13.0.0-x86_64-${NAME}.tar.gz"
 FILENAME=${URL##*/}
 FILENAME_WO_GZ=${FILENAME%.*}
 FILENAME_WO_TARGZ=${FILENAME_WO_GZ%.*}
@@ -25,7 +25,7 @@ else
     wget -P "ripgrep" "${URL}"
     tar -xzvf "ripgrep/${FILENAME}" -C "ripgrep"
     mkdir -p ${PATH_RIPGREP}
-    mv "${FILENAME_WO_TARGZ}" "${PATH_RIPGREP}"
+    mv "ripgrep/${FILENAME_WO_TARGZ}" "${PATH_RIPGREP}"
     rm -rf "ripgrep*"
 fi
 
