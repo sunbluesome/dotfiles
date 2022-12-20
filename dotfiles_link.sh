@@ -1,5 +1,5 @@
-#!/bin/sh
-# do `sh dotfiles_link.sh`
+#!/bin/bash
+# do `bash dotfiles_link.sh`
 
 # check OS
 if [ "$(uname)" == 'Darwin' ]; then
