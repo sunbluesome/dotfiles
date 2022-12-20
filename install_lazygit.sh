@@ -46,6 +46,6 @@ else
         echo 'export PATH=$PATH:'$PATH_LAZYGIT >> ${HOME}/.zshrc
     elif [ $OS == "linux" ]; then
         echo "\n# lazygit" >> ${HOME}/.bashrc
-        echo 'export PATH=$PATH:'$NVIM_HOME/bin >> ${HOME}/.bashrc
+        echo 'export PATH=$PATH:'$PATH_LAZYGIT >> ${HOME}/.bashrc
     fi
 fi
