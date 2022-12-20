@@ -27,12 +27,12 @@ if [ -z $PATH_LAZYGIT ]
 then
     echo "${PATH_LAZYGIT} already exist"
 else
-    wget -P lazygit ${URL}
+    wget -P _lazygit ${URL}
     # xattr -c ./${FILENAME}
-    tar xzvf "lazygit/${FILENAME}"
+    tar xzvf "_lazygit/${FILENAME}"
     mkdir -p ${PATH_LAZYGIT}
-    mv "lazygit/lazygit" ${PATH_LAZYGIT}
-    rm -rf lazygit
+    mv "_lazygit/lazygit" ${PATH_LAZYGIT}
+    rm -rf _lazygit
 fi
 
 # add path
