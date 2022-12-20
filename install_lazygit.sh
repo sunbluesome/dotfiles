@@ -42,10 +42,10 @@ then
 else
     # add path
     if [ $OS == "macos" ]; then
-        echo "\n# lazygit" >> ${HOME}/.zshrc
+        echo "# lazygit" >> ${HOME}/.zshrc
         echo 'export PATH=$PATH:'$PATH_LAZYGIT >> ${HOME}/.zshrc
     elif [ $OS == "linux" ]; then
-        echo "\n# lazygit" >> ${HOME}/.bashrc
+        echo "# lazygit" >> ${HOME}/.bashrc
         echo 'export PATH=$PATH:'$PATH_LAZYGIT >> ${HOME}/.bashrc
     fi
 fi
