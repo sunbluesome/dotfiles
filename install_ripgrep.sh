@@ -22,9 +22,10 @@ if [ -z $PATH_RIPGREP ]
 then
     echo "${PATH_RIPGREP} already exist"
 else
-    wget -P "repgrep" "${URL}"
-    tar -xzvf ${FILENAME} -C "ripgrep"
-    mv "repgrep/${FILENAME_WO_TARGZ}" "${PATH_RIPGREP}"
+    wget -P "ripgrep" "${URL}"
+    tar -xzvf ripgrep/${FILENAME} -C "ripgrep"
+    mkdir -p ${PATH_RIPGREP}
+    mv "rigrep/${FILENAME_WO_TARGZ}" "${PATH_RIPGREP}"
     rm -rf "ripgrep*"
 fi
 
