@@ -29,7 +29,7 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 -- maps in insert mode ---------------------------------
-Map("i", "jk", "<ESC>")
+-- Map("i", "jk", "<ESC>")
 
 -- maps in normal mode ---------------------------------
 Map("n", "L", "<C-u>setlocal relativenumber!<CR>")
@@ -70,7 +70,7 @@ Map("n", "<Space>l", "$")
 -- maps in terminal mode -------------------------------
 local term_opts = { silent = true }
 Map("t", "<ESC>", "<C-\\><C-n>")
-Map("t", "jk", "<C-\\><C-n>")
+-- Map("t", "jk", "<C-\\><C-n>")
 Map("t", "<C-h>", "<C-\\><C-N><C-w>h", term_opts)
 Map("t", "<C-j>", "<C-\\><C-N><C-w>j", term_opts)
 Map("t", "<C-k>", "<C-\\><C-N><C-w>k", term_opts)
