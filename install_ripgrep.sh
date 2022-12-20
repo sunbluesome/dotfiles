@@ -23,9 +23,9 @@ then
     echo "${PATH_RIPGREP} already exist"
 else
     wget -P "ripgrep" "${URL}"
-    tar -xzvf ripgrep/${FILENAME} -C "ripgrep"
+    tar -xzvf "ripgrep/${FILENAME}" -C "ripgrep"
     mkdir -p ${PATH_RIPGREP}
-    mv "rigrep/${FILENAME_WO_TARGZ}" "${PATH_RIPGREP}"
+    mv "${FILENAME_WO_TARGZ}" "${PATH_RIPGREP}"
     rm -rf "ripgrep*"
 fi
 
