@@ -22,7 +22,7 @@ else
     xattr -c "./${FILENAME}.tar.gz"
     tar xzvf "${FILENAME}.tar.gz"
     mkdir -p $NVIM_HOME
-    mv $FILENAME $NVIM_HOME
+    mv $FILENAME "${HOME}/bin"
     rm -rf "${FILENAME}*"
 fi
 
@@ -33,10 +33,10 @@ then
 else
     # add path
     if [ $OS == "macos" ]; then
-        echo "\n# neovim" >> ${HOME}/.zshrc
+        echo "# neovim" >> ${HOME}/.zshrc
         echo 'export PATH=$PATH:'$NVIM_HOME/bin >> ${HOME}/.zshrc
     elif [ $OS == "linux" ]; then
-        echo "\n# neovim" >> ${HOME}/.bashrc
+        echo "# neovim" >> ${HOME}/.bashrc
         echo 'export PATH=$PATH:'$NVIM_HOME/bin >> ${HOME}/.bashrc
     fi
 fi
