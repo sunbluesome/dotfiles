@@ -35,7 +35,7 @@ else
     rm -rf ${FILENAME}*
 fi
 
-# add neovim path
+# add path
 if [[ "$PATH" =~ "$PATH_LAZYGIT" ]];
 then
     echo "${PATH_LAZYGIT} already exists in PATH"
