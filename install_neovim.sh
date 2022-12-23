@@ -27,7 +27,7 @@ fi
 rm -rf "${FILENAME}*"
 
 # add neovim path
-if [ "${PATH}" =~ "${NVIM_HOME}" ];
+if [[ "${PATH}" =~ "${NVIM_HOME}" ]];
 then
     echo "${NVIM_HOME} already exists in PATH"
 else
