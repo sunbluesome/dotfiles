@@ -123,9 +123,6 @@ packer.startup({
             end
         }
 
-        -- Markdown preview
-        use {'iamcco/markdown-preview.nvim'}
-
         if packer_bootstrap then
             require('packer').sync()
         end
