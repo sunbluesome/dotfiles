@@ -1,9 +1,9 @@
 #!/bin/sh
 
-if [[ "$(uname)" == 'Darwin' ]]; then
+if [[ $(uname) == 'Darwin' ]]; then
     OS="macos"
     FILENAME='nvim-macos'
-elif [ "$(expr substr $(uname -s) 1 5)" == 'Linux' ]; then
+elif [[ $(expr substr $(uname -s) 1 5) == 'Linux' ]]; then
     OS="linux"
     FILENAME='nvim-linux64'
 else
@@ -15,7 +15,7 @@ NVIM_URL="https://github.com/neovim/neovim/releases/download/stable/${FILENAME}.
 NVIM_HOME="${HOME}/bin/${FILENAME}"
 
 # install neovim
-if [[ -z "${NVIM_HOME}" ]]; then
+if [[ -z ${NVIM_HOME} ]]; then
     echo "${NVIM_HOME} already exist"
 else
     wget "${NVIM_URL}"
@@ -27,15 +27,15 @@ fi
 rm -rf "${FILENAME}*"
 
 # add neovim path
-if [[ "${PATH}" =~ "${NVIM_HOME}" ]];
+if [[ ${PATH} =~ ${NVIM_HOME} ]];
 then
     echo "${NVIM_HOME} already exists in PATH"
 else
     # add path
-    if [ "${OS}" == "macos" ]; then
+    if [[ ${OS} == macos ]]; then
         echo "# neovim" >> ${HOME}/.zshrc
         echo 'export PATH=$PATH:'${NVIM_HOME}/bin >> ${HOME}/.zshrc
-    elif [ "${OS}" == "linux" ]; then
+    elif [[ ${OS} == "linux" ]]; then
         echo "# neovim" >> ${HOME}/.bashrc
         echo 'export PATH=$PATH:'${NVIM_HOME}/bin >> ${HOME}/.bashrc
     fi
