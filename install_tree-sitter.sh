@@ -27,7 +27,8 @@ else
     wget -P tree-sitter ${URL}
     gzip -d "tree-sitter/${FILENAME}"
     mkdir -p ${PATH_TREESITTER}
-    mv "tree-sitter/${FILENAME_WO_GZ}" ${PATH_TREESITTER}
+    mv "tree-sitter/${FILENAME_WO_GZ}" "tree-sitter/tree-sitter"
+    mv "tree-sitter/tree-sitter" ${PATH_TREESITTER}
     rm -rf tree-sitter
 fi
 
