@@ -1,9 +1,9 @@
 #!/bin/sh
 
-if [[ "$(uname)" == 'Darwin' ]]; then
+if [ "$(uname)" = 'Darwin' ]; then
     OS="macos"
     FILENAME='macos'
-elif [ "$(expr substr $(uname -s) 1 5)" == 'Linux' ]; then
+elif [ "$(expr substr $(uname -s) 1 5)" = 'Linux' ]; then
     OS="linux"
     FILENAME='linux'
 else
@@ -21,26 +21,25 @@ echo $FILENAME_WO_GZ
 echo $PATH_TREESITTER
 
 # install neovim
-if [[ -z "$PATH_TREESITTER" ]]; then
+if [ -z "$PATH_TREESITTER" ]; then
     echo "${PATH_TREESITTER} already exist"
 else
     wget -P tree-sitter ${URL}
-    gzip -d "tree-sitter/${FILENAME}" -C "tree-sitter"
+    gzip -d "tree-sitter/${FILENAME}"
     mkdir -p ${PATH_TREESITTER}
     mv "tree-sitter/tree-sitter" ${PATH_TREESITTER}
     rm -rf tree-sitter
 fi
 
 # add path
-if [[ "$PATH" =~ "$PATH_TREESITTER" ]];
-then
+if echo "${PATH_TREESITTER}" | grep -sq "${PATH}"; then
     echo "${PATH_TREESITTER} already exists in PATH"
 else
     # add path
-    if [[ "$OS" == "macos" ]]; then
+    if [ "${OS}" = "macos" ]; then
         echo "# tree-sitter" >> ${HOME}/.zshrc
         echo 'export PATH=$PATH:'$PATH_TREESITTER >> ${HOME}/.zshrc
-    elif [[ "$OS" == "linux" ]]; then
+    elif [ "${OS}" = "linux" ]; then
         echo "# tree-sitter" >> ${HOME}/.bashrc
         echo 'export PATH=$PATH:'$PATH_TREESITTER >> ${HOME}/.bashrc
     fi
