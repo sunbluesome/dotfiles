@@ -30,7 +30,6 @@ fi
 
 # add path
 if echo "${PATH_RIPGREP}" | grep -sq "${PATH}"; then
-then
     echo "${PATH_RIPGREP} already exists in PATH"
 else
     # add path
