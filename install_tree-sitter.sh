@@ -29,6 +29,7 @@ else
     mkdir -p ${PATH_TREESITTER}
     mv "tree-sitter/${FILENAME_WO_GZ}" "tree-sitter/tree-sitter"
     mv "tree-sitter/tree-sitter" ${PATH_TREESITTER}
+    chmod 775 ${PATH_TREESITTER}
     rm -rf tree-sitter
 fi
 
