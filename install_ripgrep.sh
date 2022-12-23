@@ -25,7 +25,7 @@ else
     wget -P "ripgrep" "${URL}"
     tar -xzvf "ripgrep/${FILENAME}" -C "ripgrep"
     mkdir -p ${PATH_RIPGREP}
-    mv "ripgrep/${FILENAME_WO_TARGZ}" "${PATH_RIPGREP}"
+    mv "ripgrep/${FILENAME_WO_TARGZ}/rg" "${PATH_RIPGREP}"
     rm -rf "ripgrep*"
 fi
 
