@@ -29,7 +29,7 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 -- maps in insert mode ---------------------------------
--- Map("i", "jk", "<ESC>")
+Map("i", "jk", "<ESC>")
 
 -- maps in normal mode ---------------------------------
 Map("n", "L", "<C-u>setlocal relativenumber!<CR>")
