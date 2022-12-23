@@ -1,9 +1,9 @@
 #!/bin/sh
 
-if [[ $(uname) == 'Darwin' ]]; then
+if [[ $(uname) -eq 'Darwin' ]]; then
     OS="macos"
     FILENAME='nvim-macos'
-elif [[ $(expr substr $(uname -s) 1 5) == 'Linux' ]]; then
+elif [[ $(expr substr $(uname -s) 1 5) -eq 'Linux' ]]; then
     OS="linux"
     FILENAME='nvim-linux64'
 else
