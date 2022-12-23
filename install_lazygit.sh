@@ -39,10 +39,10 @@ if echo "${PATH_LAZYGIT}" | grep -sq "${PATH}"; then
     echo "${PATH_LAZYGIT} already exists in PATH"
 else
     # add path
-    if [ "${OS}" == "macos" ]; then
+    if [ "${OS}" = "macos" ]; then
         echo "# lazygit" >> ${HOME}/.zshrc
         echo 'export PATH=$PATH:'$PATH_LAZYGIT >> ${HOME}/.zshrc
-    elif [ "${OS}" == "linux" ]; then
+    elif [ "${OS}" = "linux" ]; then
         echo "# lazygit" >> ${HOME}/.bashrc
         echo 'export PATH=$PATH:'$PATH_LAZYGIT >> ${HOME}/.bashrc
     fi
