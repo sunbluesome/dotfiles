@@ -11,7 +11,7 @@ end
 
 vim.api.nvim_set_keymap(
     "n",
-    "lg",
+    "<leader>lg",
     "<cmd>lua _lazygit_toggle()<CR>",
     { noremap = true, silent = true }
 )
