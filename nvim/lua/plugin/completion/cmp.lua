@@ -14,39 +14,36 @@ end
 --   פּ ﯟ   some other good icons
 -- find more here: https://www.nerdfonts.com/cheat-sheet
 local kind_icons = {
-    Text = "",
-    Method = "m",
-    Function = "",
-    Constructor = "",
-    Field = "",
-    Variable = "",
-    Class = "",
-    Interface = "",
-    Module = "",
-    Property = "",
-    Unit = "",
-    Value = "",
-    Enum = "",
-    Keyword = "",
-    Snippet = "",
-    Color = "",
-    File = "",
-    Reference = "",
-    Folder = "",
-    EnumMember = "",
-    Constant = "",
-    Struct = "",
-    Event = "",
-    Operator = "",
-    TypeParameter = "",
+  Text = "  ",
+  Method = "  ",
+  Function = "  ",
+  Constructor = "  ",
+  Field = "  ",
+  Variable = "  ",
+  Class = "  ",
+  Interface = "  ",
+  Module = "  ",
+  Property = "  ",
+  Unit = "  ",
+  Value = "  ",
+  Enum = "  ",
+  Keyword = "  ",
+  Snippet = "  ",
+  Color = "  ",
+  File = "  ",
+  Reference = "  ",
+  Folder = "  ",
+  EnumMember = "  ",
+  Constant = "  ",
+  Struct = "  ",
+  Event = "  ",
+  Operator = "  ",
+  TypeParameter = "  ",
 }
 
 cmp.setup({
-    snippet = {
-        expand = function(args)
-            luasnip.lsp_expand(args.body) -- For `luasnip` users.
-        end,
-    },
+    preselect = cmp.PreselectMode.None,  -- nvim-cmp will not preselect any items.
+
     mapping = {
         -- horizontal scrolling
         ["<C-k>"] = cmp.mapping.select_prev_item(),
@@ -107,6 +104,16 @@ cmp.setup({
         }),
     },
 
+    snippet = {
+        expand = function(args)
+            luasnip.lsp_expand(args.body) -- For `luasnip` users.
+        end,
+    },
+
+    completion = {
+        keyword_length = 1  -- The number of characters needed to trigger auto-completion.
+    },
+
     formatting = {
         -- order of items in cmp window
         fields = { "kind", "abbr", "menu" },
@@ -119,7 +126,7 @@ cmp.setup({
             -- naming for sources
             vim_item.menu = ({
                 nvim_lsp = "[LSP]",
-                nvim_lua = "[NVIM_LUA]",
+                nvim_lua = "[LUA]",
                 luasnip = "[Snippet]",
                 buffer = "[Buffer]",
                 path = "[Path]",
@@ -129,15 +136,19 @@ cmp.setup({
             return vim_item
         end,
     },
+
+    disallow_fuzzy_matching = false,  -- Whether to allow fuzzy matching.
+    disallow_prefix_unmatching = false, -- Whether to allow fuzzy matching.
+
     sources = {
         { name = "nvim_lsp" },
         { name = "nvim_lua" },
-        { name = 'nvim_lsp_signature_help' },
+        { name = "nvim_lsp_signature_help" },
         { name = "buffer" },
-        { name = "path" },
-        { name = 'cmdline' },
+        { name = "path" , keyword_pattern = "/"},
+        { name = "cmdline" },
         { name = "luasnip" },
-        { name = 'git' },
+        { name = "git" },
     },
     confirm_opts = {
         behavior = cmp.ConfirmBehavior.Insert,
@@ -156,28 +167,48 @@ cmp.setup({
 
 
 -- Set configuration for specific filetype.
-cmp.setup.filetype('gitcommit', {
+cmp.setup.filetype("gitcommit", {
     sources = cmp.config.sources({
-        { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
+        { name = "cmp_git" }, -- You can specify the `cmp_git` source if you were installed it.
     }, {
-        { name = 'buffer' },
+        { name = "buffer" },
+    })
+})
+cmp.setup.filetype("python", {
+    sources = cmp.config.sources({
+        { name = "luasnip" },
+    }, {
+        { name = "nvim_lsp" },
+    }, {
+        { name = "nvim_lsp_signature_help" },
+    }, {
+        { name = "buffer" },
+    }, {
+        { name = "path" },
+    })
+})
+cmp.setup.filetype("markdown", {
+    sources = cmp.config.sources({
+        { name = "buffer" },
+    }, {
+        { name = "path" },
     })
 })
 
 -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
-cmp.setup.cmdline({ '/', '?' }, {
+cmp.setup.cmdline({ "/", "?" }, {
     mapping = cmp.mapping.preset.cmdline(),
     sources = {
-        { name = 'buffer' }
+        { name = "buffer" }
     }
 })
 
--- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-cmp.setup.cmdline(':', {
+-- Use cmdline & path source for ":" (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline(":", {
     mapping = cmp.mapping.preset.cmdline(),
     sources = cmp.config.sources({
-        { name = 'path' }
+        { name = "path" }
     }, {
-        { name = 'cmdline' }
+        { name = "cmdline" }
     })
 })
