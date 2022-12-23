@@ -4,7 +4,7 @@
 
 local configs = require("nvim-treesitter.configs")
 
-if not vim.fn.has("treesitter") then
+if not vim.fn.has("tree-sitter") then
     return
 else
     configs.setup({
