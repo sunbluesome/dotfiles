@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 
-if [ "$(uname)" == 'Darwin' ]; then
+if [[ "$(uname)" == 'Darwin' ]]; then
     OS="macos"
     FILENAME='Darwin'
 elif [ "$(expr substr $(uname -s) 1 5)" == 'Linux' ]; then
@@ -23,8 +23,7 @@ echo $FILENAME_WO_TARGZ
 echo $PATH_LAZYGIT
 
 # install neovim
-if [ -z $PATH_LAZYGIT ]
-then
+if [[ -z "$PATH_LAZYGIT" ]]; then
     echo "${PATH_LAZYGIT} already exist"
 else
     wget -P lazygit ${URL}
@@ -41,10 +40,10 @@ then
     echo "${PATH_LAZYGIT} already exists in PATH"
 else
     # add path
-    if [ $OS == "macos" ]; then
+    if [[ "$OS" == "macos" ]]; then
         echo "# lazygit" >> ${HOME}/.zshrc
         echo 'export PATH=$PATH:'$PATH_LAZYGIT >> ${HOME}/.zshrc
-    elif [ $OS == "linux" ]; then
+    elif [[ "$OS" == "linux" ]]; then
         echo "# lazygit" >> ${HOME}/.bashrc
         echo 'export PATH=$PATH:'$PATH_LAZYGIT >> ${HOME}/.bashrc
     fi

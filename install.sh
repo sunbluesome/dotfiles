@@ -1,6 +1,7 @@
-#!/bin/bash
+#!/bin/sh
 
-source install_neovim.sh
-source install_ripgrep.sh
-source install_lazygit.sh
-bash dotfiles_link.sh
+sh install_neovim.sh
+sh install_ripgrep.sh
+sh install_lazygit.sh
+sh install_tree-sitter.sh
+sh dotfiles_link.sh

@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 
-if [ "$(uname)" == 'Darwin' ]; then
+if [[ "$(uname)" == 'Darwin' ]]; then
     OS="macos"
     NAME='apple-darwin'
 elif [ "$(expr substr $(uname -s) 1 5)" == 'Linux' ]; then
@@ -18,8 +18,7 @@ FILENAME_WO_TARGZ=${FILENAME_WO_GZ%.*}
 PATH_RIPGREP="${HOME}/bin/ripgrep"
 
 # install neovim
-if [ -z $PATH_RIPGREP ]
-then
+if [[ -z $PATH_RIPGREP ]]; then
     echo "${PATH_RIPGREP} already exist"
 else
     wget -P "ripgrep" "${URL}"
@@ -35,10 +34,10 @@ then
     echo "${PATH_RIPGREP} already exists in PATH"
 else
     # add path
-    if [ $OS == "macos" ]; then
+    if [[ "$OS" == "macos" ]]; then
         echo "# ripgrep" >> ${HOME}/.zshrc
         echo 'export PATH=$PATH:'$PATH_RIPGREP >> ${HOME}/.zshrc
-    elif [ $OS == "linux" ]; then
+    elif [[ "$OS" == "linux" ]]; then
         echo "# ripgrep" >> ${HOME}/.bashrc
         echo 'export PATH=$PATH:'$PATH_RIPGREP >> ${HOME}/.bashrc
     fi
