@@ -78,6 +78,7 @@ packer.startup({
         use { "neovim/nvim-lspconfig" } -- enable LSP
         use { "jose-elias-alvarez/null-ls.nvim" } -- formatter and linter
         use { "ray-x/lsp_signature.nvim" } -- help with type hinting
+        use { "onsails/lspkind.nvim" } -- This tiny plugin adds vscode-like pictograms to neovim built-in lsp
 
         -- Completion
         use { "hrsh7th/nvim-cmp" } -- The completion plugin
