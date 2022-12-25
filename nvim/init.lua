@@ -14,6 +14,7 @@ loader:load_configs({
     "plugin.fuzzyfinder.telescope",
     "plugin.lsp",
     "plugin.completion.cmp",
+    "plugin.linter.null-ls",
     "plugin.git.gitsigns",
     "plugin.git.diffview",
     "plugin.debugger",

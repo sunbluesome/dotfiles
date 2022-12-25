@@ -39,7 +39,10 @@ packer.startup({
         -- must be first
         use 'wbthomason/packer.nvim'
 
-        -- plugins
+        -- many plugins use this.
+        use { 'kyazdani42/nvim-web-devicons' }
+
+        -- status line ----------------------------------------------------------------
         use {
             'nvim-lualine/lualine.nvim',
             requires = {'kyazdani42/nvim-web-devicons', opt = true }
@@ -56,7 +59,6 @@ packer.startup({
         }
         -- bracket colorizer
         use { "p00f/nvim-ts-rainbow" }
-
 
         -- telescope ------------------------------------------------------------------
         use {
@@ -78,7 +80,16 @@ packer.startup({
         use { "neovim/nvim-lspconfig" } -- enable LSP
         use { "jose-elias-alvarez/null-ls.nvim" } -- formatter and linter
         use { "ray-x/lsp_signature.nvim" } -- help with type hinting
-        use { "onsails/lspkind.nvim" } -- This tiny plugin adds vscode-like pictograms to neovim built-in lsp
+        -- This tiny plugin adds vscode-like pictograms to neovim built-in lsp
+        use { "onsails/lspkind.nvim" }
+        -- A pretty list for showing diagnostics, references, telescope results,
+        -- quickfix and location lists to help you solve all the trouble your code is
+        -- causing.
+        use {
+            "folke/trouble.nvim",
+            requires = "kyazdani42/nvim-web-devicons",
+            config = function() require("trouble").setup {} end
+        }
 
         -- Completion
         use { "hrsh7th/nvim-cmp" } -- The completion plugin
