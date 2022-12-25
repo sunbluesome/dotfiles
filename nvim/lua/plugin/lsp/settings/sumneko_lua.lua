@@ -2,8 +2,8 @@ return {
   settings = {
     Lua = {
       diagnostics = {
-        -- Get the language server to recognize the `vim` global
-        globals = {'vim', 'use', 'packer_bootstrap'},
+        -- Get the language server to recognize them global
+        globals = {'vim', 'use', 'packer_bootstrap', 'require', 'pairs'},
       },
       workspace = {
         -- An array of abosolute or workspace-relative paths that will be added to the

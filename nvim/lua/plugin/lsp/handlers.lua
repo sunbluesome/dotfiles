@@ -57,7 +57,7 @@ M.setup = function()
     -- Change diagnostic symbols inthe sign column
     -- See `UI Customization/Change diagnostic symbols in the sign column (gutter)`
     -- in nvim_lspconfig's wiki.
-    local signs = { Error = "E", Warn = "W", Hint = "H", Info = "I" }
+    local signs = { Error = "", Warn = "", Hint = "", Info = "" }
     for type, icon in pairs(signs) do
         local hl = "DiagnosticSign" .. type
         vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
@@ -66,7 +66,7 @@ M.setup = function()
     -- You can configure diagnostic options globally.
     -- See :help vim.diagnostic.config for more advanced customization options.
     vim.diagnostic.config({
-        virtual_text = true, -- shows error message at the end of an line in which it occured
+        virtual_text = false, -- shows error message at the end of an line in which it occured
         underline = true,
         severity_sort = true,
         float = {
