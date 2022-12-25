@@ -24,15 +24,13 @@ local sources = {
         }
     }),
     diagnostics.flake8.with({
+-- E203: ignored because this causes conflict with `black`. Ref: https://black.readthedocs.io/en/stable/the_black_code_style/current_style.html#slices
+-- W503: ignored because this rule goes against PEP8. Ref: https://www.flake8rules.com/rules/W503.html
         extra_args = {
             "--max-line-length",
             "88",
             "--extend-ignore",
-            "D100",
-            "D104",
-            "D401",
-            "E203", -- E203: ignored because this causes conflict with `black`. Ref: https://black.readthedocs.io/en/stable/the_black_code_style/current_style.html#slices
-            "W503", -- W503: ignored because this rule goes against PEP8. Ref: https://www.flake8rules.com/rules/W503.html
+            "D100,D104,D401","E203","W503",
         },
     }),
     diagnostics.pyproject_flake8.with({
