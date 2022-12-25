@@ -130,24 +130,6 @@ cmp.setup({
                 return vim_item
             end,
         }),
-
-        -- display options for entries in cmp window
-        -- format = function(entry, vim_item)
-        --     -- vim_item.kind = string.format("%s %s", kind_icons[vim_item.kind], vim_item.kind) -- shows icon and kind
-        --     vim_item.kind = string.format("%s", kind_icons[vim_item.kind]) -- shows only icon
-
-        --     -- naming for sources
-        --     vim_item.menu = ({
-        --         nvim_lsp = "[LSP]",
-        --         nvim_lua = "[LUA]",
-        --         luasnip = "[Snippet]",
-        --         buffer = "[Buffer]",
-        --         path = "[Path]",
-        --         git = "[Git]",
-        --         cmdline = "[CMD]",
-        --     })[entry.source.name]
-        --     return vim_item
-        -- end,
     },
 
     disallow_fuzzy_matching = false,  -- Whether to allow fuzzy matching.
