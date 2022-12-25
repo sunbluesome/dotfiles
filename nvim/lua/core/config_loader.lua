@@ -11,15 +11,15 @@ local logger = require("core.logging").init(log_path)
 --
 -- @param configs table an array of relative paths from root dir to the plugin configs
 function M:load_configs(configs)
-	for _, conf in ipairs(configs) do
-		local ok, err = pcall(require, conf)
-		if not ok then
-			print(err)
-			--logger:error(conf, err)
-		end
-	end
+    for _, conf in ipairs(configs) do
+        local ok, err = pcall(require, conf)
+        if not ok then
+            print(err)
+            --logger:error(conf, err)
+        end
+    end
 
-	-- logger:cleanup()
+    -- logger:cleanup()
 end
 
 return M
