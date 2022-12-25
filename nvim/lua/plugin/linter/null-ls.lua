@@ -27,7 +27,7 @@ local sources = {
         extra_args = {
             "--max-line-length",
             "88",
-            "--ignore",
+            "--extend-ignore",
             "D100",
             "D104",
             "D401",
