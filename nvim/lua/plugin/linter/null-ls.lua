@@ -34,5 +34,6 @@ local sources = {
 null_ls.setup({
     debug = false,
     diagnostics_format = "[#{c}] #{m} (#{s})",
-    sources = sources
+    sources = sources,
+    temp_dir = "/tmp",
 })
