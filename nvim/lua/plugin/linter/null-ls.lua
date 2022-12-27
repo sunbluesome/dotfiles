@@ -25,7 +25,7 @@ local sources = {
     diagnostics.flake8,
     -- diagnostics.pyproject_flake8,
     diagnostics.mypy,
-    diagnostics.pydocstyle,
+    -- diagnostics.pydocstyle,
     formatting.black,
     formatting.isort,
 }
