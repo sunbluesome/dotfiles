@@ -171,9 +171,9 @@ cmp.setup.filetype("gitcommit", {
 })
 cmp.setup.filetype("python", {
     sources = cmp.config.sources({
-        { name = "luasnip" },
-    }, {
         { name = "nvim_lsp" },
+    }, {
+        { name = "luasnip" },
     }, {
         { name = "nvim_lsp_signature_help" },
     }, {
@@ -183,6 +183,8 @@ cmp.setup.filetype("python", {
 cmp.setup.filetype("markdown", {
     sources = cmp.config.sources({
         { name = "path" },
+    }, {
+        { name = "buffer" },
     })
 })
 
