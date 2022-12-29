@@ -21,5 +21,6 @@ loader:load_configs({
     "plugin.syntax.ts-rainbow",
     "plugin.syntax.comment",
     "plugin.terminal.toggleterm",
+    "plugin.bufferline.bufferline",
 })
 

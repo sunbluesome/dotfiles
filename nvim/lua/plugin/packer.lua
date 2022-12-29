@@ -42,6 +42,13 @@ packer.startup({
         -- many plugins use this.
         use { 'kyazdani42/nvim-web-devicons' }
 
+        -- bufferline -----------------------------------------------------------------
+        use {
+            'akinsho/bufferline.nvim',
+            tag = "v3.*",
+            requires = 'nvim-tree/nvim-web-devicons'
+        }
+
         -- status line ----------------------------------------------------------------
         use {
             'nvim-lualine/lualine.nvim',
