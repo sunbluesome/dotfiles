@@ -32,7 +32,6 @@ vim.g.maplocalleader = " "
 Map("i", "jk", "<ESC>")
 
 -- maps in normal mode ---------------------------------
-Map("n", "L", "<C-u>setlocal relativenumber!<CR>")
 Map("n", "j", "gj")
 Map("n", "k", "gk")
 Map("n", "Y", "y$")
@@ -49,10 +48,10 @@ Map("n", "<C-k>", "<C-w>k")
 Map("n", "<C-l>", "<C-w>l")
 
 -- Resize with arrows
-Map("n", "<C-Up>", ":resize -2<CR>")
-Map("n", "<C-Down>", ":resize +2<CR>")
-Map("n", "<C-Left>", ":vertical resize +2<CR>")
-Map("n", "<C-Right>", ":vertical resize -2<CR>")
+Map("n", "<C-Up>", ":resize +2<CR>")
+Map("n", "<C-Down>", ":resize -2<CR>")
+Map("n", "<C-Left>", ":vertical resize -2<CR>")
+Map("n", "<C-Right>", ":vertical resize +2<CR>")
 
 -- search
 Map("n", "<ESC><ESC>", ":nohlsearch<CR><ESC>")
@@ -64,8 +63,8 @@ Map("n", "th", "gT")
 Map("n", "tl", "gt")
 
 -- utils
-Map("n", "<Space>h", "^")
-Map("n", "<Space>l", "$")
+-- Map("n", "<leader>h", "^")
+-- Map("n", "<leader>l", "$")
 
 -- maps in terminal mode -------------------------------
 local term_opts = { silent = true }
