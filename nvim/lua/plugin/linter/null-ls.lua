@@ -31,9 +31,14 @@ local sources = {
 }
 
 
+local temp_dir = "/tmp"
+if vim.loop.os_uname().sysname == "Windows_NT" then
+    temp_dir = "%USERPROFILE%\\AppData\\Local\\Temp"
+end
+
 null_ls.setup({
     debug = false,
     diagnostics_format = "[#{c}] #{m} (#{s})",
     sources = sources,
-    temp_dir = "/tmp",
+    -- temp_dir = temp_dir,
 })
