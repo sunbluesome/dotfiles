@@ -34,8 +34,10 @@ fi
 
 mkdir -p ${HOME}/.config
 mkdir -p ${HOME}/.config/lazygit
+mkdir -p ${HOME}/.config/tmux
 ln -sFn ${SHELL_PATH}/nvim ${HOME}/.config/nvim
 ln -sfn ${SHELL_PATH}/config/lazygit.yml ${HOME}/.config/lazygit/config.yml
+ln -sfn ${SHELL_PATH}/config/tmux.conf ${HOME}/.config/tmux/tmux.conf
 
 for fname in ".vim" ".vimrc" ".zshrc"
 do
