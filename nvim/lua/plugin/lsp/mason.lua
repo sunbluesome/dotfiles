@@ -10,6 +10,7 @@ local ls_to_install = {
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#pyright
     -- example: https://zenn.dev/pluck/scraps/27b2a2bd75e6f3
     "pyright",
+    "ltex",
 }
 
 require("mason-lspconfig").setup({
