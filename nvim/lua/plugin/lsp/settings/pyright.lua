@@ -4,6 +4,7 @@ return {
             analysis = {
                 autoSearchPaths = true,
                 diagnosticMode = "workspace",
+                typeCheckingMode = "off",
                 extraPaths = {
                     ".",
                     "./src",
