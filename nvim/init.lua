@@ -6,26 +6,21 @@ require("plugin.packer")
 
 local loader = require("core.config_loader")
 
-if vim.g.vscode then
-    loader:load_configs({
-        "plugin.lsp",
-    })
-else
-    loader:load_configs({
-        "plugin.statusline.lualine",
-        "plugin.colorscheme.nightfox",
-        "plugin.completion.autopaires",
-        "plugin.syntax.treesitter",
-        "plugin.fuzzyfinder.telescope",
-        "plugin.lsp",
-        "plugin.completion.cmp",
-        "plugin.linter.null-ls",
-        "plugin.git.gitsigns",
-        "plugin.git.diffview",
-        "plugin.debugger",
-        "plugin.syntax.ts-rainbow",
-        "plugin.syntax.comment",
-        "plugin.terminal.toggleterm",
-        "plugin.bufferline.bufferline",
-    })
-end
+loader:load_configs({
+    "plugin.statusline.lualine",
+    "plugin.colorscheme.nightfox",
+    "plugin.completion.autopaires",
+    "plugin.syntax.treesitter",
+    "plugin.fuzzyfinder.telescope",
+    "plugin.lsp",
+    "plugin.completion.cmp",
+    "plugin.linter.null-ls",
+    "plugin.git.gitsigns",
+    "plugin.git.diffview",
+    "plugin.debugger",
+    "plugin.syntax.ts-rainbow",
+    "plugin.syntax.comment",
+    "plugin.terminal.toggleterm",
+    "plugin.bufferline.bufferline",
+    "plugin.easymotion.hop",
+})
