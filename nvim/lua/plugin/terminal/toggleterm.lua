@@ -51,7 +51,7 @@ vim.api.nvim_set_keymap(
 )
 vim.api.nvim_set_keymap(
     "n",
-    "<leader>term",
+    "<leader>te",
     "<cmd>lua _shell_toggle()<CR>",
     { noremap = true, silent = true }
 )
