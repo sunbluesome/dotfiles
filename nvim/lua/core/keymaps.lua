@@ -57,8 +57,8 @@ Map("n", "<C-Right>", ":vertical resize +2<CR>")
 Map("n", "<ESC><ESC>", ":nohlsearch<CR><ESC>")
 
 -- tabs
-Map("n", "te", ":tabedit")
-Map("n", "tn", ":tabnew<CR>")
+-- Map("n", "te", ":tabedit")
+-- Map("n", "tn", ":tabnew<CR>")
 Map("n", "th", "gT")
 Map("n", "tl", "gt")
 
