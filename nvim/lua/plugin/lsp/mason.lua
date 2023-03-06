@@ -6,7 +6,7 @@ local ls_to_install = {
     "dockerls",
     "jsonls",
     "texlab",
-    "sumneko_lua",
+    -- "sumneko_lua",
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#pyright
     -- example: https://zenn.dev/pluck/scraps/27b2a2bd75e6f3
     "pyright",
@@ -33,11 +33,11 @@ require("mason-lspconfig").setup_handlers {
     end,
 
     -- Next, you can provide a dedicated handler for specific servers.
-    ["sumneko_lua"] = function()
-        local sumneko_opts = require("plugin.lsp.settings.sumneko_lua")
-        opts = vim.tbl_deep_extend("force", sumneko_opts, opts)
-        lspconfig.sumneko_lua.setup(opts)
-    end,
+    -- ["sumneko_lua"] = function()
+    --     local sumneko_opts = require("plugin.lsp.settings.sumneko_lua")
+    --     opts = vim.tbl_deep_extend("force", sumneko_opts, opts)
+    --     lspconfig.sumneko_lua.setup(opts)
+    -- end,
 
     ["pyright"] = function()
         local pyright_opts = require("plugin.lsp.settings.pyright")
