@@ -21,7 +21,7 @@ export LDFLAGS="-L/usr/local/opt/bzip2/lib -L/usr/local/opt/zlib/lib"
 export CPPFLAGS="-I/usr/local/opt/bzip2/include -I/usr/local/opt/zlib/include"
 export PKG_CONFIG_PATH="/usr/local/opt/zlib/lib/pkgconfig"
 
-# XDG Base Directory Specification 
+# XDG Base Directory Specification
 export XDG_CONFIG_HOME=$HOME/.config
 mkdir -p $XDG_CONFIG_HOME
 
@@ -46,3 +46,6 @@ export PATH=$PATH:/Users/inoue/bin/ripgrep
 
 # lazygit
 export PATH=$PATH:/Users/inoue/bin/lazygit
+
+# starship
+eval "$(starship init zsh)"
