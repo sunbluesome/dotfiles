@@ -16,6 +16,7 @@ export PS1='%n@%m:%c %# '
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init --path)"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 export PATH="/usr/local/opt/bzip2/bin:$PATH"
 export LDFLAGS="-L/usr/local/opt/bzip2/lib -L/usr/local/opt/zlib/lib"
 export CPPFLAGS="-I/usr/local/opt/bzip2/include -I/usr/local/opt/zlib/include"
@@ -33,7 +34,7 @@ autoload -U promptinit; promptinit
 prompt pure
 
 # poetry
-export PATH="/Users/inoue/.local/bin:$PATH"
+export PATH="/Users/haruki/.poetry/bin:$PATH"
 
 # rust
 export PATH="$HOME/.cargo/env:$PATH"
@@ -42,10 +43,22 @@ export PATH="$HOME/.cargo/env:$PATH"
 export PATH=$PATH:~/bin/nvim-macos/bin
 
 # ripgrep
-export PATH=$PATH:/Users/inoue/bin/ripgrep
+export PATH=$PATH:/Users/haruki/bin/ripgrep
 
 # lazygit
-export PATH=$PATH:/Users/inoue/bin/lazygit
+export PATH=$PATH:/Users/haruki/bin/lazygit
 
 # starship
 eval "$(starship init zsh)"
+
+# statr ssh-agent
+if [ -f ~/.ssh-agent ]; then
+    . ~/.ssh-agent
+fi
+if [ -z "$SSH_AGENT_PID" ] || ! kill -0 $SSH_AGENT_PID; then
+    ssh-agent > ~/.ssh-agent
+    . ~/.ssh-agent
+fi
+ssh-add -l >& /dev/null || ssh-add
+
+export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
