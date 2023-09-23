@@ -44,3 +44,4 @@ site/
 ../*
 packer_compiled.lua
 
+ripgrep/
