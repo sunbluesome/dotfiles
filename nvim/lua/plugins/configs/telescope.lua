@@ -20,27 +20,27 @@ Map("n", "<leader>fe", function()  -- file explorer as fe
         cwd = telescope_buffer_dir(),
         grouped = true,
         hidden = true,
-        previewer = false,
+        previewer = true,
         initial_mode = "normal",
-        layout_config = { height = 40 },
+        layout_strategy = 'flex',
     })
 end)
 
 -- Dap
-Map('n', '<F5>', ':DapContinue<CR>')
-Map('n', '<F10>', ':DapStepOver<CR>')
-Map('n', '<F11>', ':DapStepInto<CR>')
-Map('n', '<F12>', ':DapStepOut<CR>')
-Map('n', '<leader>b', ':DapToggleBreakpoint<CR>')
-Map('n', '<leader>B',
-    ':lua require("dap").set_breakpoint(nil, nil, vim.fn.input("Breakpoint condition: "))<CR>'
-)
-Map('n', '<leader>lp',
-    ':lua require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: "))<CR>'
-)
-Map('n', '<leader>dr', ':lua require("dap").repl.open()<CR>')
-Map('n', '<leader>dl', ':lua require("dap").run_last()<CR>')
-Map('n', '<leader>d', ':lua require("dapui").toggle()<CR>')
+-- Map('n', '<F5>', ':DapContinue<CR>')
+-- Map('n', '<F10>', ':DapStepOver<CR>')
+-- Map('n', '<F11>', ':DapStepInto<CR>')
+-- Map('n', '<F12>', ':DapStepOut<CR>')
+-- Map('n', '<leader>b', ':DapToggleBreakpoint<CR>')
+-- Map('n', '<leader>B',
+--     ':lua require("dap").set_breakpoint(nil, nil, vim.fn.input("Breakpoint condition: "))<CR>'
+-- )
+-- Map('n', '<leader>lp',
+--     ':lua require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: "))<CR>'
+-- )
+-- Map('n', '<leader>dr', ':lua require("dap").repl.open()<CR>')
+-- Map('n', '<leader>dl', ':lua require("dap").run_last()<CR>')
+-- Map('n', '<leader>d', ':lua require("dapui").toggle()<CR>')
 
 -- setup telesope
 telescope.setup({
@@ -72,13 +72,14 @@ telescope.setup({
                 ["G"] = actions.move_to_bottom,
                 ["<C-u>"] = actions.preview_scrolling_up,
                 ["<C-d>"] = actions.preview_scrolling_down,
+                ["D"] = actions.delete_buffer,
                 ["?"] = actions.which_key,
             }
         },
     },
     extensions = {
         file_browser = {
-            theme = "dropdown",
+            theme = "ivy",
             dir_icon = "",
             -- disables netrw and use telescope-file-browser in its place
             hijack_netrw = true,

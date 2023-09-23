@@ -2,25 +2,20 @@ require("core.base")
 require("core.autocmds")
 require("core.keymaps")
 require("core.options")
-require("plugin.packer")
 
-local loader = require("core.config_loader")
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
 
-loader:load_configs({
-    "plugin.statusline.lualine",
-    "plugin.colorscheme.nightfox",
-    "plugin.completion.autopaires",
-    "plugin.syntax.treesitter",
-    "plugin.fuzzyfinder.telescope",
-    "plugin.lsp",
-    "plugin.completion.cmp",
-    "plugin.linter.null-ls",
-    "plugin.git.gitsigns",
-    "plugin.git.diffview",
-    "plugin.debugger",
-    "plugin.syntax.ts-rainbow",
-    "plugin.syntax.comment",
-    "plugin.terminal.toggleterm",
-    "plugin.bufferline.bufferline",
-    "plugin.easymotion.hop",
-})
+-- load settings
+require("lazy").setup("plugins")
+
