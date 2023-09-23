@@ -31,6 +31,22 @@ return {
 
             -- The argument to setup is the path to the python installation which contains the debugpy module.
             dap_py.setup(python_path)
+
+            dap.configurations.python = {
+                {
+                    -- The first three options are required by nvim-dap
+                    name = "Pytest: Current File",
+                    type = "python", -- the type here established the link to the adapter definition: `dap.adapters.python`
+                    request = "launch",
+                    module = "pytest",
+                    args = {
+                        "${file}",
+                        "-sv",
+                    },
+                    console = "integratedTerminal",
+                }
+            }
+
         end,
     },
 }
