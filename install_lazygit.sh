@@ -11,13 +11,7 @@ else
     exit 1
 fi
 
-if [ "$(uname -m)" = 'arm64' ]; then
-    archtecture="arm64"
-else
-    archtecture="x86_64"
-fi
-
-URL="https://github.com/jesseduffield/lazygit/releases/download/v0.42.0/lazygit_0.42.0_${FILENAME}_${archtecture}.tar.gz"
+URL="https://github.com/jesseduffield/lazygit/releases/download/v0.42.0/lazygit_0.42.0_${FILENAME}_arm64.tar.gz"
 FILENAME=${URL##*/}
 FILENAME_WO_GZ=${FILENAME%.*}
 FILENAME_WO_TARGZ=${FILENAME_WO_GZ%.*}

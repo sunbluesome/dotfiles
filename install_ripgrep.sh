@@ -11,13 +11,7 @@ else
     exit 1
 fi
 
-if [ "$(uname -m)" = 'arm64' ]; then
-    archtecture="aarch64"
-else
-    archtecture="x86_64"
-fi
-
-URL="https://github.com/BurntSushi/ripgrep/releases/download/14.0.3/ripgrep-14.0.3-${archtecture}-${NAME}.tar.gz"
+URL="https://github.com/BurntSushi/ripgrep/releases/download/14.0.3/ripgrep-14.0.3-aarch64-${NAME}.tar.gz"
 FILENAME=${URL##*/}
 FILENAME_WO_GZ=${FILENAME%.*}
 FILENAME_WO_TARGZ=${FILENAME_WO_GZ%.*}
