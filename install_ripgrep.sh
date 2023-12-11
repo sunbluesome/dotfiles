@@ -5,13 +5,19 @@ if [ "$(uname)" = 'Darwin' ]; then
     NAME='apple-darwin'
 elif [ "$(expr substr $(uname -s) 1 5)" = "Linux" ]; then
     OS="linux"
-    NAME='unknown-linux-musl'
+    NAME='unknown-linux-gnu'
 else
     echo "Your platform ($(uname -a)) is not supported."
     exit 1
 fi
 
-URL="https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep-13.0.0-x86_64-${NAME}.tar.gz"
+if [ "$(uname -m)" = 'arm64' ]; then
+    archtecture="aarch64"
+else
+    archtecture="x86_64"
+fi
+
+URL="https://github.com/BurntSushi/ripgrep/releases/download/14.0.3/ripgrep-14.0.3-${archtecture}-${NAME}.tar.gz"
 FILENAME=${URL##*/}
 FILENAME_WO_GZ=${FILENAME%.*}
 FILENAME_WO_TARGZ=${FILENAME_WO_GZ%.*}

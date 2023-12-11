@@ -11,7 +11,13 @@ else
     exit 1
 fi
 
-URL="https://github.com/tree-sitter/tree-sitter/releases/download/v0.20.7/tree-sitter-${FILENAME}-x64.gz"
+if [ "$(uname -m)" = 'arm64' ]; then
+    archtecture="arm64"
+else
+    archtecture="x64"
+fi
+
+URL="https://github.com/tree-sitter/tree-sitter/releases/download/v0.20.8/tree-sitter-${FILENAME}-${archtecture}.gz"
 FILENAME=${URL##*/}
 FILENAME_WO_GZ=${FILENAME%.*}
 PATH_TREESITTER="${HOME}/bin/tree-sitter"
