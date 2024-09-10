@@ -2,7 +2,7 @@
 
 if [ "$(uname)" = 'Darwin' ]; then
     OS="macos"
-    FILENAME='nvim-macos'
+    FILENAME='nvim-macos-arm64'
 elif [ "$(expr substr $(uname -s) 1 5)" = 'Linux' ]; then
     OS="linux"
     FILENAME='nvim-linux64'
