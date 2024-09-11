@@ -40,13 +40,17 @@ export PATH="/Users/haruki/.poetry/bin:$PATH"
 export PATH="$HOME/.cargo/env:$PATH"
 
 # neovim
-export PATH=$PATH:~/bin/nvim-macos/bin
+export PATH=$PATH:/Users/haruki/bin/nvim-macos-arm64/bin
+export XDG_CONFIG_HOME=$HOME/.config
 
 # ripgrep
 export PATH=$PATH:/Users/haruki/bin/ripgrep
 
 # lazygit
 export PATH=$PATH:/Users/haruki/bin/lazygit
+
+# tree-sitter
+export PATH=$PATH:/Users/haruki/bin/tree-sitter
 
 # starship
 eval "$(starship init zsh)"
@@ -62,13 +66,3 @@ fi
 ssh-add -l >& /dev/null || ssh-add
 
 export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
-# neovim
-export PATH=$PATH:/Users/haruki/bin/nvim-macos-arm64/bin
-# ripgrep
-export PATH=$PATH:/Users/haruki/bin/ripgrep
-# lazygit
-export PATH=$PATH:/Users/haruki/bin/lazygit
-# tree-sitter
-export PATH=$PATH:/Users/haruki/bin/tree-sitter
-# neovim
-export XDG_CONFIG_HOME=$HOME/.config

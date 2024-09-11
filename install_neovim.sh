@@ -11,7 +11,7 @@ else
     exit 1
 fi
 
-NVIM_URL="https://github.com/neovim/neovim/releases/download/stable/${FILENAME}.tar.gz"
+NVIM_URL="https://github.com/neovim/neovim/releases/download/nightly/${FILENAME}.tar.gz"
 NVIM_HOME="${HOME}/bin/${FILENAME}"
 
 # install neovim
