@@ -1,53 +1,87 @@
-require("core.base")
-require("core.autocmds")
-require("core.keymaps")
-require("core.options")
+-- =============================================================================
+-- Neovim 設定ファイル (init.lua)
+-- =============================================================================
+-- このファイルは Neovim の起動時に最初に読み込まれるエントリーポイントです。
+-- 設定は以下のように分割されています：
+--   - lua/core/       : 基本設定（オプション、キーマップ、自動コマンド等）
+--   - lua/plugins/    : プラグイン設定（lazy.nvim で管理）
+-- =============================================================================
 
+-- -----------------------------------------------------------------------------
+-- コア設定の読み込み
+-- -----------------------------------------------------------------------------
+-- プラグインより先にコア設定を読み込むことで、基本的なオプションが
+-- プラグインの設定に影響を与えられるようにしています。
+require("core.base")         -- 基本設定
+require("core.autocmds")     -- 自動コマンド
+require("core.keymaps")      -- キーマップ
+require("core.options")      -- Vim オプション
+require("core.dependencies").setup()  -- 外部依存ツールの自動インストール
+
+-- -----------------------------------------------------------------------------
+-- lazy.nvim (プラグインマネージャー) のブートストラップ
+-- -----------------------------------------------------------------------------
+-- lazy.nvim がインストールされていない場合、自動的にクローンします。
+-- これにより、新しい環境でも初回起動時にプラグインマネージャーが
+-- 自動的にセットアップされます。
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
+
+-- vim.uv.fs_stat() は Neovim 0.10+ で推奨される方法
+-- (vim.loop.fs_stat() は非推奨)
+if not vim.uv.fs_stat(lazypath) then
   vim.fn.system({
     "git",
     "clone",
-    "--filter=blob:none",
+    "--filter=blob:none",  -- blob なしでクローン（高速化）
     "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
+    "--branch=stable",     -- 安定版ブランチを使用
     lazypath,
   })
 end
+
+-- runtimepath の先頭に lazy.nvim を追加
 vim.opt.rtp:prepend(lazypath)
 
+-- -----------------------------------------------------------------------------
+-- lazy.nvim の設定
+-- -----------------------------------------------------------------------------
+-- "plugins" を指定すると、lua/plugins/ ディレクトリ内の全ての Lua ファイルを
+-- 自動的に読み込みます。各ファイルはプラグイン設定のテーブルを返す必要があります。
+require("lazy").setup("plugins", {
+  -- デフォルトでプラグインを遅延読み込みにする
+  -- 各プラグインで lazy = false を指定しない限り、遅延読み込みされます
+  defaults = {
+    lazy = true,
+  },
 
-if vim.g.vscode then
-    require('lazy').setup({
-        spec = {
-            -- common
-            { import = "plugins.comment" },
-            { import = "plugins.hop" },
-            -- For vscode
-        }
-    })
-else
-    require('lazy').setup({
-        spec = {
-            -- common
-            { import = "plugins.comment" },
-            { import = "plugins.gitsigns" },
-            { import = "plugins.hop" },
-            { import = "plugins.bufferline" },
-            -- For neovim
-            { import = "plugins.dap" },
-            { import = "plugins.completion" },
-            { import = "plugins.color-scheme" },
-            { import = "plugins.diffview" },
-            { import = "plugins.lazygit" },
-            { import = "plugins.lualine" },
-            { import = "plugins.null_ls" },
-            { import = "plugins.nvim-ts-rainbow" },
-            { import = "plugins.telescope-file-browser" },
-            { import = "plugins.telescope" },
-            { import = "plugins.treesitter" },
-            { import = "plugins.trouble" },
-        }
-    })
-end
+  -- パフォーマンス最適化設定
+  performance = {
+    rtp = {
+      -- 不要な組み込みプラグインを無効化して起動を高速化
+      disabled_plugins = {
+        "gzip",           -- gzip ファイルの編集（通常不要）
+        "matchit",        -- 拡張 % マッチング（treesitter で代替）
+        "matchparen",     -- 括弧マッチングのハイライト
+        "netrwPlugin",    -- 組み込みファイラー（oil.nvim で代替）
+        "tarPlugin",      -- tar ファイルの編集（通常不要）
+        "tohtml",         -- HTML 変換（通常不要）
+        "tutor",          -- チュートリアル（不要）
+        "zipPlugin",      -- zip ファイルの編集（通常不要）
+      },
+    },
+  },
 
+  -- UI 設定
+  ui = {
+    -- プラグインウィンドウの境界線スタイル
+    border = "rounded",
+  },
+
+  -- 変更検出の設定
+  change_detection = {
+    -- 設定ファイルの変更を自動検出してリロード
+    enabled = true,
+    -- 変更検出時に通知を表示
+    notify = true,
+  },
+})

@@ -64,4 +64,3 @@ for _, options in pairs(options_table) do
         vim.opt[k] = v
     end
 end
-

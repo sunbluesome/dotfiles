@@ -1,61 +1,81 @@
+-- =============================================================================
+-- コメントアウト設定 (Comment.nvim)
+-- =============================================================================
+-- Comment.nvim は賢いコメントトグル機能を提供するプラグインです。
+-- ファイルタイプに応じて適切なコメント記号を自動選択します。
+--
+-- 使い方 (ノーマルモード):
+--   - gcc     : 現在行をコメントトグル (行コメント)
+--   - gbc     : 現在行をコメントトグル (ブロックコメント)
+--   - gc + motion : モーションで指定した範囲をコメントトグル
+--                   例: gc3j = 現在行から3行下までコメント
+--                       gcip = 段落内をコメント
+--                       gcG  = カーソル位置からファイル末尾まで
+--
+-- 使い方 (ビジュアルモード):
+--   - gc      : 選択範囲を行コメントトグル
+--   - gb      : 選択範囲をブロックコメントトグル
+--
+-- 参考: https://github.com/numToStr/Comment.nvim
+-- =============================================================================
+
 return {
-    {
-        "numToStr/Comment.nvim",
-        config = function()
-            local comment = require('Comment')
-            local ft = require('Comment.ft')
+  -- プラグイン: numToStr/Comment.nvim
+  "numToStr/Comment.nvim",
 
-            comment.setup({
-                ---Add a space b/w comment and the line
-                padding = true,
-                ---Whether the cursor should stay at its position
-                sticky = true,
-                ---Lines to be ignored while (un)comment
-                -- ignore empty lines
-                ignore = '^$',
-                ---LHS of toggle mappings in NORMAL mode
-                toggler = {
-                    ---Line-comment toggle keymap
-                    line = 'gcc',
-                    ---Block-comment toggle keymap
-                    block = 'gbc',
-                },
-                ---LHS of operator-pending mappings in NORMAL and VISUAL mode
-                opleader = {
-                    ---Line-comment keymap
-                    line = 'gc',
-                    ---Block-comment keymap
-                    block = 'gb',
-                },
-                ---LHS of extra mappings
-                extra = {
-                    ---Add comment on the line above
-                    above = 'gcO',
-                    ---Add comment on the line below
-                    below = 'gco',
-                    ---Add comment at the end of line
-                    eol = 'gcA',
-                },
-                ---Enable keybindings
-                ---NOTE: If given `false` then the plugin won't create any mappings
-                mappings = {
-                    ---Operator-pending mapping; `gcc` `gbc` `gc[count]{motion}` `gb[count]{motion}`
-                    basic = true,
-                    ---Extra mapping; `gco`, `gcO`, `gcA`
-                    extra = false,
-                },
-                ---Function to call before (un)comment
-                pre_hook = nil,
-                ---Function to call after (un)comment
-                post_hook = nil,
-            })
+  -- 遅延読み込み: コメント操作のキーを押したときに読み込む
+  -- gc や gb を押すまでプラグインは読み込まれない
+  keys = {
+    { "gc", mode = { "n", "v" }, desc = "Comment toggle linewise" },
+    { "gb", mode = { "n", "v" }, desc = "Comment toggle blockwise" },
+  },
 
-            -- Filetypes + Languages
-            ft({"yaml"}, "#%s")
-            ft({"javascript"}, {"//s", "/*%s*/"})
-            ft({'go', 'rust'}, ft.get('c'))
-            ft({'toml', 'graphql', 'python', 'bash'}, '#%s')
-        end,
-    },
+  -- プラグイン読み込み後に実行される設定
+  config = function()
+    require("Comment").setup({
+      -- 行コメントのキーマッピング (オペレーター)
+      -- gcc で現在行をトグル、gc{motion} でモーション範囲をトグル
+      toggler = {
+        line = "gcc",   -- 行コメントトグル
+        block = "gbc",  -- ブロックコメントトグル
+      },
+
+      -- オペレーター用のキーマッピング
+      opleader = {
+        line = "gc",    -- 行コメントオペレーター
+        block = "gb",   -- ブロックコメントオペレーター
+      },
+
+      -- 追加行挿入のキーマッピング
+      extra = {
+        above = "gcO",  -- 上にコメント行を追加
+        below = "gco",  -- 下にコメント行を追加
+        eol = "gcA",    -- 行末にコメントを追加
+      },
+
+      -- キーマッピングを有効にする
+      -- false にすると自分でマッピングを設定する必要がある
+      mappings = {
+        basic = true,   -- gcc, gbc, gc{motion}, gb{motion} を有効化
+        extra = true,   -- gco, gcO, gcA を有効化
+      },
+
+      -- コメント前後のスペース設定
+      padding = true,   -- コメント記号とテキストの間にスペースを入れる
+
+      -- カーソル位置を維持する
+      sticky = true,
+
+      -- コメント/アンコメント時にカーソルを移動しない
+      ignore = nil,     -- 無視するパターン (正規表現)
+
+      -- プレフック (コメント処理前に実行)
+      -- treesitter-context-commentstring と連携する場合に使用
+      pre_hook = nil,
+
+      -- ポストフック (コメント処理後に実行)
+      post_hook = nil,
+    })
+  end,
 }
 
