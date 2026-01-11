@@ -1,5 +1,6 @@
 local options_global = {
     background="dark",
+    termguicolors = true,  -- 24-bit True Color を有効化（モダンなカラースキームに必須）
     number = true,
     clipboard = "unnamedplus",
     mouse = "a",
@@ -10,7 +11,8 @@ local options_global = {
     laststatus = 3,
     backupskip = { "/tmp/*", "/private/tmp/*" },
     cursorline = true,
-    foldmethod = "syntax",
+    foldmethod = "expr",
+    foldexpr = "v:lua.vim.treesitter.foldexpr()",
     foldlevel = 99,
 }
 

@@ -1,13 +1,13 @@
 -- =============================================================================
 -- シンタックスハイライト設定 (nvim-treesitter)
 -- =============================================================================
--- Neovim 0.11+ では Tree-sitter ハイライトは組み込み機能です。
+-- Neovim 0.11+ では Treesitter ハイライトは組み込み機能です。
 -- nvim-treesitter プラグインはパーサーのインストール管理に使用します。
 --
 -- 使い方:
 --   :TSInstall <言語>   - パーサーをインストール
 --   :TSUpdate           - 全パーサーを更新
---   :TSInstallInfo      - インストール状態を確認
+--   :Inspect            - カーソル位置のハイライトグループを確認
 --
 -- 参考: https://github.com/nvim-treesitter/nvim-treesitter
 -- =============================================================================
@@ -19,16 +19,28 @@ return {
   -- パーサーの更新コマンドを自動実行
   build = ":TSUpdate",
 
-  -- 遅延読み込み: ファイルを開いたときに読み込む
-  event = { "BufReadPost", "BufNewFile" },
+  -- 遅延読み込みはサポートされていない（公式ドキュメントより）
+  lazy = false,
 
-  -- プラグイン読み込み後に実行される設定
+  -- -------------------------------------------------------------------------
+  -- nvim-treesitter の設定 (新 API - main ブランチ対応)
+  -- 参考: https://github.com/nvim-treesitter/nvim-treesitter/tree/main
+  -- -------------------------------------------------------------------------
   config = function()
-    -- -------------------------------------------------------------------------
-    -- パーサーのインストール設定
-    -- -------------------------------------------------------------------------
-    -- 初回起動時にパーサーをインストールするためのリスト
-    local ensure_installed = {
+    -- パーサーのインストール先を設定
+    -- nvim-treesitter main ブランチはデフォルトで ~/.cache/nvim にパーサーをインストールする
+    -- このディレクトリをランタイムパスに追加する
+    local parser_install_dir = vim.fn.stdpath("cache")
+    vim.opt.runtimepath:prepend(parser_install_dir)
+
+    -- nvim-treesitter のセットアップ
+    require("nvim-treesitter").setup({
+      -- パーサーのインストール先
+      install_dir = parser_install_dir,
+    })
+
+    -- インストールするパーサーのリスト
+    local parsers = {
       -- プログラミング言語
       "python",           -- Python (メイン言語)
       "r",                -- R
@@ -50,29 +62,13 @@ return {
       "vimdoc",           -- Vim ヘルプドキュメント
     }
 
-    -- 起動時にパーサーをインストール（非同期）
-    vim.api.nvim_create_autocmd("User", {
-      pattern = "LazyDone",
-      once = true,
-      callback = function()
-        -- 少し遅延させて起動を妨げないようにする
-        vim.defer_fn(function()
-          for _, lang in ipairs(ensure_installed) do
-            -- パーサーが利用可能かチェック
-            local ok = pcall(vim.treesitter.language.add, lang)
-            if not ok then
-              -- インストールされていなければインストール
-              vim.cmd("silent! TSInstall " .. lang)
-            end
-          end
-        end, 100)
-      end,
-    })
+    -- パーサーのインストール（非同期）
+    -- 初回起動時にパーサーをインストール
+    require("nvim-treesitter").install(parsers)
 
     -- -------------------------------------------------------------------------
-    -- Neovim 0.11+ 組み込みハイライト設定
+    -- Neovim 組み込み Treesitter ハイライトを有効化
     -- -------------------------------------------------------------------------
-    -- ファイルを開いたときに自動的に treesitter ハイライトを有効化
     vim.api.nvim_create_autocmd("FileType", {
       pattern = "*",
       callback = function(args)
@@ -112,21 +108,37 @@ return {
     -- -------------------------------------------------------------------------
     -- インクリメンタル選択のキーマップ
     -- -------------------------------------------------------------------------
-    -- Ctrl+Space で選択開始/拡大、Backspace で縮小
-    vim.keymap.set("n", "<C-space>", function()
-      -- ビジュアルモードに入って選択開始
+    vim.keymap.set({ "n", "x" }, "<C-space>", function()
       local ok = pcall(vim.treesitter.get_parser)
-      if ok then
-        vim.cmd("normal! v")
-        -- treesitter ノードを選択
+      if not ok then
+        return
+      end
+
+      -- 現在のモードを確認
+      local mode = vim.fn.mode()
+      if mode == "n" then
+        -- ノーマルモード: ビジュアルモードに入ってノード選択
         local node = vim.treesitter.get_node()
         if node then
           local sr, sc, er, ec = node:range()
-          vim.api.nvim_buf_set_mark(0, "<", sr + 1, sc, {})
-          vim.api.nvim_buf_set_mark(0, ">", er + 1, ec - 1, {})
-          vim.cmd("normal! gv")
+          vim.cmd("normal! v")
+          vim.api.nvim_win_set_cursor(0, { sr + 1, sc })
+          vim.cmd("normal! o")
+          vim.api.nvim_win_set_cursor(0, { er + 1, ec > 0 and ec - 1 or 0 })
+        end
+      else
+        -- ビジュアルモード: 親ノードに拡大
+        local node = vim.treesitter.get_node()
+        if node then
+          local parent = node:parent()
+          if parent then
+            local sr, sc, er, ec = parent:range()
+            vim.api.nvim_win_set_cursor(0, { sr + 1, sc })
+            vim.cmd("normal! o")
+            vim.api.nvim_win_set_cursor(0, { er + 1, ec > 0 and ec - 1 or 0 })
+          end
         end
       end
-    end, { desc = "Start treesitter selection" })
+    end, { desc = "Treesitter incremental selection" })
   end,
 }

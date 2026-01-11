@@ -1,32 +1,83 @@
 -- =============================================================================
--- カラースキーム設定 (iceberg.vim)
+-- カラースキーム設定 (tokyonight.nvim)
 -- =============================================================================
--- iceberg は青を基調としたダークテーマで、目に優しく長時間のコーディングに最適です。
--- 代替として solarized を使用する場合は、このファイルを編集してください。
+-- Tokyo Night は人気のモダンなカラースキームです。
+-- Treesitter、LSP セマンティックトークンに完全対応しています。
 --
--- 参考: https://github.com/cocopon/iceberg.vim
+-- 参考: https://github.com/folke/tokyonight.nvim
 -- =============================================================================
 
 return {
-  -- プラグイン: cocopon/iceberg.vim
-  "cocopon/iceberg.vim",
+  -- プラグイン: folke/tokyonight.nvim
+  "folke/tokyonight.nvim",
 
   -- カラースキームは起動時に必ず必要なので、遅延読み込みしない
   lazy = false,
 
   -- 他のプラグインより先に読み込む（最高優先度）
-  -- priority のデフォルトは 50 なので、1000 を指定すると最初に読み込まれる
   priority = 1000,
 
   -- プラグイン読み込み後に実行される設定
   config = function()
-    -- カラースキームを適用
-    vim.cmd.colorscheme("iceberg")
+    require("tokyonight").setup({
+      style = "night",  -- "storm", "moon", "night", "day" から選択
+      transparent = false,
+      terminal_colors = true,
 
-    -- 必要に応じて追加のハイライト調整をここに記述
-    -- 例: 背景を透明にする場合
-    -- vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-    -- vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+      -- ハイライトのカスタマイズ
+      on_highlights = function(hl, c)
+        -- -----------------------------------------------------------------
+        -- LSP セマンティックトークンのハイライト強化
+        -- -----------------------------------------------------------------
+        -- モジュール名 (from xxx import ...)
+        hl["@lsp.type.namespace"] = { fg = c.cyan }
+        hl["@lsp.type.namespace.python"] = { fg = c.cyan }
+
+        -- クラス名
+        hl["@lsp.type.class"] = { fg = c.yellow }
+        hl["@lsp.type.class.python"] = { fg = c.yellow }
+
+        -- 関数呼び出し
+        hl["@lsp.type.function"] = { fg = c.blue }
+        hl["@lsp.type.function.python"] = { fg = c.blue }
+        hl["@lsp.type.method"] = { fg = c.blue }
+        hl["@lsp.type.method.python"] = { fg = c.blue }
+
+        -- 変数・パラメータ
+        hl["@lsp.type.parameter"] = { fg = c.orange, italic = true }
+        hl["@lsp.type.parameter.python"] = { fg = c.orange, italic = true }
+        hl["@lsp.type.variable"] = { fg = c.fg }
+        hl["@lsp.type.variable.python"] = { fg = c.fg }
+
+        -- プロパティ
+        hl["@lsp.type.property"] = { fg = c.green1 }
+        hl["@lsp.type.property.python"] = { fg = c.green1 }
+
+        -- デコレータ
+        hl["@lsp.type.decorator"] = { fg = c.yellow }
+        hl["@lsp.type.decorator.python"] = { fg = c.yellow }
+
+        -- -----------------------------------------------------------------
+        -- Treesitter ハイライトの補完
+        -- -----------------------------------------------------------------
+        -- 関数呼び出し時の関数名
+        hl["@function.call"] = { fg = c.blue }
+        hl["@function.call.python"] = { fg = c.blue }
+        hl["@method.call"] = { fg = c.blue }
+        hl["@method.call.python"] = { fg = c.blue }
+
+        -- モジュール (import 文)
+        hl["@module"] = { fg = c.cyan }
+        hl["@module.python"] = { fg = c.cyan }
+
+        -- 型アノテーション
+        hl["@type"] = { fg = c.yellow }
+        hl["@type.python"] = { fg = c.yellow }
+      end,
+    })
+
+    -- カラースキームを適用
+    vim.cmd.colorscheme("tokyonight")
   end,
 }
 
@@ -41,8 +92,7 @@ return {
 --   priority = 1000,
 --   config = function()
 --     require("solarized").setup({
---       -- "dark" または "light" を指定
---       -- vim.o.background の値に従う場合は省略可能
+--       -- variant = "autumn",  -- "spring", "summer", "autumn", "winter"
 --     })
 --     vim.cmd.colorscheme("solarized")
 --   end,

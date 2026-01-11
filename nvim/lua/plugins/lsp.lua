@@ -91,6 +91,7 @@ return {
       -- -----------------------------------------------------------------------
 
       -- Python: Pyright (型チェック/補完)
+      -- 仮想環境を自動検出して補完を有効にする
       vim.lsp.config.pyright = {
         cmd = { "pyright-langserver", "--stdio" },
         filetypes = { "python" },
@@ -104,12 +105,62 @@ return {
           ".git",
         },
         capabilities = capabilities,
+        before_init = function(_, config)
+          -- Python パスを検出する
+          -- 優先順位:
+          --   1. NVIM_PYTHON_PATH 環境変数 (Docker 環境用)
+          --   2. VIRTUAL_ENV 環境変数
+          --   3. プロジェクトルートの .venv (macOS ローカル開発用)
+          --   4. /usr/local/bin/python (Docker/Linux 環境のフォールバック)
+          --   5. システムの python3
+          local function find_python_path()
+            -- 1. NVIM_PYTHON_PATH 環境変数を最優先
+            local nvim_python = vim.env.NVIM_PYTHON_PATH
+            if nvim_python and vim.fn.executable(nvim_python) == 1 then
+              return nvim_python
+            end
+
+            -- 2. VIRTUAL_ENV 環境変数
+            local venv = vim.env.VIRTUAL_ENV
+            if venv then
+              local path = venv .. "/bin/python"
+              if vim.fn.executable(path) == 1 then
+                return path
+              end
+            end
+
+            -- 3. プロジェクトルートの .venv (macOS ローカル開発用)
+            local root = config.root_dir or vim.fn.getcwd()
+            local venv_paths = {
+              root .. "/.venv/bin/python",
+              root .. "/venv/bin/python",
+            }
+            for _, path in ipairs(venv_paths) do
+              if vim.fn.executable(path) == 1 then
+                return path
+              end
+            end
+
+            -- 4. /usr/local/bin/python (Docker/Linux 環境)
+            if vim.fn.executable("/usr/local/bin/python") == 1 then
+              return "/usr/local/bin/python"
+            end
+
+            -- 5. システムの python3
+            return vim.fn.exepath("python3") or vim.fn.exepath("python")
+          end
+
+          config.settings = config.settings or {}
+          config.settings.python = config.settings.python or {}
+          config.settings.python.pythonPath = find_python_path()
+        end,
         settings = {
           python = {
             analysis = {
               typeCheckingMode = "basic",
               autoImportCompletions = true,
               diagnosticMode = "openFilesOnly",
+              useLibraryCodeForTypes = true,
             },
           },
         },
@@ -176,6 +227,14 @@ return {
         group = vim.api.nvim_create_augroup("UserLspConfig", {}),
         callback = function(args)
           local bufnr = args.buf
+          local client = vim.lsp.get_client_by_id(args.data.client_id)
+
+          -- セマンティックトークンが利用可能な場合、有効化を確認
+          -- (Neovim 0.11+ ではデフォルトで有効だが、明示的に確認)
+          if client and client.server_capabilities.semanticTokensProvider then
+            -- セマンティックトークンのハイライトを有効化
+            vim.lsp.semantic_tokens.start(bufnr, args.data.client_id)
+          end
 
           local function map(mode, lhs, rhs, desc)
             vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
@@ -213,12 +272,21 @@ return {
       -- -----------------------------------------------------------------------
       -- 診断の表示設定
       -- -----------------------------------------------------------------------
+      -- Neovim 0.11+ では vim.diagnostic.config の signs オプションで
+      -- アイコンを設定する（vim.fn.sign_define は非推奨）
       vim.diagnostic.config({
         virtual_text = {
           prefix = "●",
           spacing = 4,
         },
-        signs = true,
+        signs = {
+          text = {
+            [vim.diagnostic.severity.ERROR] = " ",
+            [vim.diagnostic.severity.WARN] = " ",
+            [vim.diagnostic.severity.HINT] = " ",
+            [vim.diagnostic.severity.INFO] = " ",
+          },
+        },
         underline = true,
         update_in_insert = false,
         severity_sort = true,
@@ -229,18 +297,6 @@ return {
           prefix = "",
         },
       })
-
-      -- 診断アイコンの設定
-      local signs = {
-        Error = " ",
-        Warn = " ",
-        Hint = " ",
-        Info = " ",
-      }
-      for type, icon in pairs(signs) do
-        local hl = "DiagnosticSign" .. type
-        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-      end
     end,
   },
 }

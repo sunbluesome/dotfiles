@@ -5,7 +5,9 @@
 -- 通常の Vim 操作でファイルの作成、削除、リネーム、移動ができます。
 --
 -- 使い方:
+--   - Ctrl+e でカレントディレクトリを開く
 --   - "-" キーで親ディレクトリを開く
+--   - q で oil を閉じる
 --   - ディレクトリ内でファイル名を編集して :w で保存 = リネーム
 --   - dd でファイルを削除 (保存時に実行される)
 --   - o で新規ファイル作成
@@ -21,9 +23,9 @@ return {
   -- アイコン表示のための依存プラグイン
   dependencies = { "nvim-tree/nvim-web-devicons" },
 
-  -- 遅延読み込み: "-" キーを押したときに読み込む
-  -- ファイラーは必要なときだけ読み込めばよい
+  -- 遅延読み込み: キーを押したときに読み込む
   keys = {
+    { "<C-e>", "<CMD>Oil<CR>", desc = "Open current directory" },
     { "-", "<CMD>Oil<CR>", desc = "Open parent directory" },
   },
 
@@ -105,6 +107,7 @@ return {
         ["<C-t>"] = "actions.select_tab",    -- 新しいタブで開く
         ["<C-p>"] = "actions.preview",       -- プレビュー
         ["<C-c>"] = "actions.close",         -- 閉じる
+        ["q"] = "actions.close",             -- q で閉じる
         ["<C-r>"] = "actions.refresh",       -- 更新
         ["-"] = "actions.parent",            -- 親ディレクトリへ
         ["_"] = "actions.open_cwd",          -- カレントディレクトリを開く

@@ -11,42 +11,79 @@
 
 local M = {}
 
--- OS タイプを判定する
+-- OS タイプをキャッシュ (一度だけ判定)
+local os_type_cache = nil
+
+-- OS タイプを判定する (同期的だが軽量)
 local function get_os_type()
-  local uname = vim.fn.system("uname -s"):gsub("\n", "")
-  if uname == "Darwin" then
-    return "macos"
-  elseif uname == "Linux" then
+  if os_type_cache then
+    return os_type_cache
+  end
+
+  local uname = vim.uv.os_uname()
+  if uname.sysname == "Darwin" then
+    os_type_cache = "macos"
+  elseif uname.sysname == "Linux" then
     -- Debian/Ubuntu かどうかをチェック
     if vim.fn.executable("apt-get") == 1 then
-      return "debian"
+      os_type_cache = "debian"
+    else
+      os_type_cache = "linux"
     end
-    return "linux"
+  else
+    os_type_cache = "unknown"
   end
-  return "unknown"
+
+  return os_type_cache
 end
 
--- ツールがインストールされていない場合、インストールを実行
-local function install_if_missing(cmd, install_commands)
-  if vim.fn.executable(cmd) == 0 then
-    local os_type = get_os_type()
-    local install_cmd = install_commands[os_type]
+-- 非同期でコマンドを実行する
+local function async_system(cmd, on_complete)
+  vim.system(
+    { "sh", "-c", cmd },
+    { text = true },
+    vim.schedule_wrap(function(result)
+      on_complete(result.code == 0, result.stdout or "", result.stderr or "")
+    end)
+  )
+end
 
-    if install_cmd then
-      vim.notify(cmd .. " をインストール中...", vim.log.levels.INFO)
-      local result = vim.fn.system(install_cmd)
-      if vim.v.shell_error == 0 then
-        vim.notify(cmd .. " のインストールが完了しました", vim.log.levels.INFO)
-      else
-        vim.notify(cmd .. " のインストールに失敗しました: " .. result, vim.log.levels.ERROR)
-      end
-    else
-      vim.notify(
-        cmd .. " がインストールされていません。手動でインストールしてください。",
-        vim.log.levels.WARN
-      )
+-- ツールがインストールされていない場合、非同期でインストールを実行
+local function install_if_missing(cmd, install_commands, on_done)
+  if vim.fn.executable(cmd) == 1 then
+    -- 既にインストール済み
+    if on_done then
+      on_done()
     end
+    return
   end
+
+  local os_type = get_os_type()
+  local install_cmd = install_commands[os_type]
+
+  if not install_cmd then
+    vim.notify(
+      cmd .. " がインストールされていません。手動でインストールしてください。",
+      vim.log.levels.WARN
+    )
+    if on_done then
+      on_done()
+    end
+    return
+  end
+
+  vim.notify(cmd .. " をインストール中...", vim.log.levels.INFO)
+
+  async_system(install_cmd, function(success, stdout, stderr)
+    if success then
+      vim.notify(cmd .. " のインストールが完了しました", vim.log.levels.INFO)
+    else
+      vim.notify(cmd .. " のインストールに失敗しました: " .. stderr, vim.log.levels.ERROR)
+    end
+    if on_done then
+      on_done()
+    end
+  end)
 end
 
 -- インストールするツールの定義
@@ -76,6 +113,14 @@ local tools = {
       debian = "sudo apt-get update && sudo apt-get install -y ripgrep",
     },
   },
+  {
+    -- tree-sitter-cli: nvim-treesitter のパーサーコンパイルに必要
+    cmd = "tree-sitter",
+    install = {
+      macos = "brew install tree-sitter",
+      debian = "npm install -g tree-sitter-cli",
+    },
+  },
 }
 
 -- 依存ツールのチェックと自動インストールを実行
@@ -84,10 +129,18 @@ function M.setup()
   vim.api.nvim_create_autocmd("VimEnter", {
     callback = function()
       vim.defer_fn(function()
-        for _, tool in ipairs(tools) do
-          install_if_missing(tool.cmd, tool.install)
+        -- 順番にインストール（並列だと brew がロックする可能性があるため）
+        local idx = 1
+        local function install_next()
+          if idx > #tools then
+            return
+          end
+          local tool = tools[idx]
+          idx = idx + 1
+          install_if_missing(tool.cmd, tool.install, install_next)
         end
-      end, 1000) -- 1秒後にチェック開始
+        install_next()
+      end, 100) -- 100ms 後にチェック開始
     end,
     once = true,
   })
