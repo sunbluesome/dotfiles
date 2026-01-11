@@ -117,7 +117,7 @@ local tools = {
     -- tree-sitter-cli: nvim-treesitter のパーサーコンパイルに必要
     cmd = "tree-sitter",
     install = {
-      macos = "brew install tree-sitter",
+      macos = "brew install tree-sitter-cli",
       debian = "npm install -g tree-sitter-cli",
     },
   },

@@ -78,16 +78,16 @@ return {
       keymaps = {
         -- Claude Code ターミナルをトグル
         toggle = {
-          normal = "<leader>ac",  -- ノーマルモードで <leader>ac
+          normal = "<leader>cc",  -- ノーマルモードで <leader>ac
         },
         -- 選択範囲を Claude Code に送信
         send_selection = {
-          visual = "<leader>as",  -- ビジュアルモードで <leader>as
+          visual = "<leader>cs",  -- ビジュアルモードで <leader>as
         },
         -- 現在のファイルをコンテキストに追加
         add_file = {
-          normal = "<leader>af",  -- ノーマルモードで <leader>af
-          visual = "<leader>af",  -- ビジュアルモードで <leader>af（選択範囲を追加）
+          normal = "<leader>ca",  -- ノーマルモードで <leader>af
+          visual = "<leader>ca",  -- ビジュアルモードで <leader>af（選択範囲を追加）
         },
       },
 

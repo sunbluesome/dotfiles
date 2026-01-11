@@ -66,3 +66,32 @@ for _, options in pairs(options_table) do
         vim.opt[k] = v
     end
 end
+
+-- -----------------------------------------------------------------------------
+-- クリップボード設定（SSH/DevContainer 環境対応）
+-- -----------------------------------------------------------------------------
+-- SSH 接続やコンテナ内では通常のクリップボードプロバイダーが使えないため、
+-- OSC 52 エスケープシーケンスを使用してターミナル経由でクリップボードにアクセス
+-- 対応ターミナル: iTerm2, Ghostty, Kitty, WezTerm など
+-- -----------------------------------------------------------------------------
+local function is_remote_environment()
+  return vim.env.SSH_TTY ~= nil
+      or vim.env.SSH_CLIENT ~= nil
+      or vim.env.REMOTE_CONTAINERS ~= nil
+      or vim.env.CODESPACES ~= nil
+      or vim.fn.has("wsl") == 1
+end
+
+if is_remote_environment() then
+  vim.g.clipboard = {
+    name = "OSC 52",
+    copy = {
+      ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+      ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
+    },
+    paste = {
+      ["+"] = require("vim.ui.clipboard.osc52").paste("+"),
+      ["*"] = require("vim.ui.clipboard.osc52").paste("*"),
+    },
+  }
+end

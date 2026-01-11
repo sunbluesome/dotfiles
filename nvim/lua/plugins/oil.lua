@@ -25,13 +25,15 @@ return {
 
   -- 遅延読み込み: キーを押したときに読み込む
   keys = {
-    { "<C-e>", "<CMD>Oil<CR>", desc = "Open current directory" },
+    { "<C-e>", "<CMD>Oil --float<CR>", desc = "Open current directory (float)" },
     { "-", "<CMD>Oil<CR>", desc = "Open parent directory" },
   },
 
   -- プラグイン読み込み後に実行される設定
   config = function()
     require("oil").setup({
+      -- oilを開いたときに自動でプレビューを表示
+      watch_for_changes = true,
       -- デフォルトのファイラーとして使用するか
       -- true にすると netrw の代わりに oil が開く
       default_file_explorer = true,
@@ -88,9 +90,40 @@ return {
         -- ウィンドウの境界線スタイル
         border = "rounded",
 
+        -- プレビューウィンドウの位置: "auto", "left", "right", "above", "below"
+        preview_split = "right",
+
         -- 内側に勝手に表示されるウィンドウタイトル
         win_options = {
           winblend = 0,  -- 透明度 (0 = 不透明)
+        },
+      },
+
+      -- プレビューウィンドウ設定（自動プレビュー）
+      preview_win = {
+        -- カーソル移動時にプレビューを自動更新
+        update_on_cursor_moved = true,
+        -- プレビューを無効にするファイル（大きなファイルなど）
+        disable_preview = function(filename)
+          local max_size = 1024 * 1024 -- 1MB
+          local stat = vim.loop.fs_stat(filename)
+          if stat and stat.size > max_size then
+            return true
+          end
+          return false
+        end,
+        win_options = {},
+      },
+
+      -- プレビュー設定
+      preview = {
+        -- プレビューの最大幅/高さ
+        max_width = 0.9,
+        max_height = 0.9,
+        -- プレビューウィンドウの境界線
+        border = "rounded",
+        win_options = {
+          winblend = 0,
         },
       },
 
@@ -102,11 +135,11 @@ return {
       keymaps = {
         ["g?"] = "actions.show_help",      -- ヘルプ表示
         ["<CR>"] = "actions.select",       -- ファイルを開く
-        ["<C-v>"] = "actions.select_vsplit", -- 垂直分割で開く
-        ["<C-s>"] = "actions.select_split",  -- 水平分割で開く
+        -- ["<C-v>"] = "actions.select_vsplit", -- 垂直分割で開く
+        -- ["<C-s>"] = "actions.select_split",  -- 水平分割で開く
         ["<C-t>"] = "actions.select_tab",    -- 新しいタブで開く
-        ["<C-p>"] = "actions.preview",       -- プレビュー
-        ["<C-c>"] = "actions.close",         -- 閉じる
+        -- ["<C-p>"] = "actions.preview",       -- プレビュー
+        -- ["<C-c>"] = "actions.close",         -- 閉じる
         ["q"] = "actions.close",             -- q で閉じる
         ["<C-r>"] = "actions.refresh",       -- 更新
         ["-"] = "actions.parent",            -- 親ディレクトリへ
@@ -116,7 +149,19 @@ return {
         ["gs"] = "actions.change_sort",      -- ソート順変更
         ["gx"] = "actions.open_external",    -- 外部プログラムで開く
         ["g."] = "actions.toggle_hidden",    -- 隠しファイル表示切替
+        -- ["P"] = "actions.preview",           -- プレビュートグル（大文字P）
       },
+    })
+
+    -- oilを開いたときに自動でプレビューウィンドウを表示
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "OilEnter",
+      callback = vim.schedule_wrap(function(args)
+        local oil = require("oil")
+        if vim.api.nvim_get_current_buf() == args.data.buf and oil.get_cursor_entry() then
+          oil.open_preview()
+        end
+      end),
     })
   end,
 }

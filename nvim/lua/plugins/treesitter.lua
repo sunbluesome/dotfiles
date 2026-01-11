@@ -63,8 +63,17 @@ return {
     }
 
     -- パーサーのインストール（非同期）
-    -- 初回起動時にパーサーをインストール
-    require("nvim-treesitter").install(parsers)
+    -- 未インストールのパーサーのみインストール
+    local missing_parsers = {}
+    for _, parser in ipairs(parsers) do
+      local ok = pcall(vim.treesitter.language.add, parser)
+      if not ok then
+        table.insert(missing_parsers, parser)
+      end
+    end
+    if #missing_parsers > 0 then
+      require("nvim-treesitter").install(missing_parsers)
+    end
 
     -- -------------------------------------------------------------------------
     -- Neovim 組み込み Treesitter ハイライトを有効化

@@ -11,6 +11,7 @@
 --   - <leader>fh : ヘルプタグ検索
 --   - <leader>fr : 最近開いたファイル
 --   - <leader>fd : LSP 診断情報
+--   - <leader>fe : ファイルブラウザ（ファイラ）
 --
 -- 検索ウィンドウ内:
 --   - Ctrl+j/k : 上下移動
@@ -19,6 +20,13 @@
 --   - Ctrl+v   : 垂直分割で開く
 --   - Ctrl+x   : 水平分割で開く
 --   - Ctrl+t   : 新しいタブで開く
+--
+-- ファイルブラウザ内:
+--   - Ctrl+h   : 親ディレクトリへ移動
+--   - Ctrl+e   : ディレクトリを開く
+--   - Ctrl+a   : ファイル/ディレクトリ作成
+--   - Ctrl+r   : リネーム
+--   - Ctrl+d   : 削除
 --
 -- 参考: https://github.com/nvim-telescope/telescope.nvim
 -- =============================================================================
@@ -34,6 +42,12 @@ return {
   -- plenary.nvim は Lua 関数のユーティリティライブラリ
   dependencies = {
     "nvim-lua/plenary.nvim",
+    "nvim-tree/nvim-web-devicons",
+
+    -- ファイルブラウザ拡張
+    {
+      "nvim-telescope/telescope-file-browser.nvim",
+    },
 
     -- (オプション) ネイティブ FZF ソーターで検索を高速化
     -- ビルドに cmake と make が必要
@@ -53,6 +67,8 @@ return {
     { "<leader>fd", "<cmd>Telescope diagnostics<cr>", desc = "Diagnostics" },
     { "<leader>fc", "<cmd>Telescope commands<cr>", desc = "Commands" },
     { "<leader>fk", "<cmd>Telescope keymaps<cr>", desc = "Keymaps" },
+    -- <leader>fe は config 内で設定（カスタムマッピング付き）
+    { "<leader>fe", desc = "File browser" },
   },
 
   -- プラグイン読み込み後に実行される設定
@@ -64,10 +80,10 @@ return {
       -- デフォルト設定
       defaults = {
         -- プロンプト (検索入力欄) のプレフィックス
-        prompt_prefix = "   ",  -- 検索アイコン
+        prompt_prefix = "> ",
 
         -- 選択行のプレフィックス
-        selection_caret = " ",
+        selection_caret = "> ",
 
         -- エントリのプレフィックス
         entry_prefix = "  ",
@@ -141,6 +157,28 @@ return {
 
       -- 拡張機能の設定
       extensions = {
+        -- ファイルブラウザ
+        file_browser = {
+          -- レイアウト設定（プレビューを右側に表示）
+          layout_strategy = "horizontal",
+          layout_config = {
+            horizontal = {
+              preview_width = 0.5,  -- プレビュー幅50%
+            },
+            width = 0.9,
+            height = 0.8,
+          },
+          -- ファイルブラウザ起動時にディレクトリを開く
+          hijack_netrw = true,
+          -- 隠しファイルを表示
+          hidden = { file_browser = true, folder_browser = true },
+          -- グループ化（ディレクトリを先に表示）
+          grouped = true,
+          -- プレビューを有効化
+          previewer = true,
+          -- 初期モード（insert または normal）
+          initial_mode = "normal",
+        },
         -- fzf-native を使う場合の設定
         -- fzf = {
         --   fuzzy = true,
@@ -151,8 +189,30 @@ return {
       },
     })
 
-    -- 拡張機能の読み込み (使用する場合はコメント解除)
+    -- 拡張機能の読み込み
+    telescope.load_extension("file_browser")
     -- telescope.load_extension("fzf")
+
+    -- ファイルブラウザのキーマッピング（拡張読み込み後に設定）
+    local fb_actions = telescope.extensions.file_browser.actions
+    vim.keymap.set("n", "<leader>fe", function()
+      telescope.extensions.file_browser.file_browser({
+        path = vim.fn.expand("%:p:h"),
+        select_buffer = true,
+        mappings = {
+          ["n"] = {
+            ["h"] = fb_actions.goto_parent_dir,
+            ["l"] = actions.select_default,
+            ["a"] = fb_actions.create,
+            ["r"] = fb_actions.rename,
+            ["d"] = fb_actions.remove,
+            ["c"] = fb_actions.copy,
+            ["m"] = fb_actions.move,
+            ["."] = fb_actions.toggle_hidden,
+          },
+        },
+      })
+    end, { desc = "File browser" })
   end,
 }
 
