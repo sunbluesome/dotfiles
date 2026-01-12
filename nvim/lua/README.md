@@ -24,7 +24,11 @@ lua/
     ├── lsp.lua         # LSP サポート
     ├── cmp.lua         # 自動補完
     ├── gitsigns.lua    # Git 変更表示
-    └── indent-blankline.lua  # インデントガイド
+    ├── indent-blankline.lua  # インデントガイド
+    ├── hop.lua         # モーションジャンプ
+    ├── markview.lua    # Markdown インエディタプレビュー
+    ├── markdown-preview.lua  # Markdown ブラウザプレビュー
+    └── loam.lua        # Zettelkasten ノート管理（開発中）
 ```
 
 ## プラグイン一覧
@@ -45,6 +49,20 @@ lua/
 | [oil.nvim](https://github.com/stevearc/oil.nvim) | バッファ編集式ファイラー | `-` キー |
 | [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) | ファジーファインダー | `<leader>f*` キー |
 | [Comment.nvim](https://github.com/numToStr/Comment.nvim) | コメントトグル | `gc`, `gb` キー |
+| [hop.nvim](https://github.com/smoka7/hop.nvim) | モーションジャンプ | VeryLazy |
+
+### Markdown
+
+| プラグイン | 説明 | 遅延読み込み |
+|-----------|------|-------------|
+| [markview.nvim](https://github.com/OXY2DEV/markview.nvim) | インエディタプレビュー（見出し、リスト等を装飾表示） | ❌ (即時) |
+| [markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim) | ブラウザプレビュー（KaTeX 数式、Mermaid 対応） | ft: markdown |
+
+### Zettelkasten
+
+| プラグイン | 説明 | 遅延読み込み |
+|-----------|------|-------------|
+| telescope-loam | Zettelkasten ノート管理（開発中） | `<leader>z*` キー |
 
 ### 開発支援
 
@@ -65,6 +83,7 @@ lua/
 |------|------|
 | `<C-\>` | ターミナルをトグル |
 | `-` | 親ディレクトリを開く (oil.nvim) |
+| `m` | 単語の先頭にジャンプ (hop.nvim) |
 
 ### ファイル検索 (Telescope)
 
@@ -83,6 +102,30 @@ lua/
 | `gcc` | 現在行をコメントトグル |
 | `gc{motion}` | モーション範囲をコメントトグル |
 | (Visual) `gc` | 選択範囲をコメントトグル |
+
+### Markdown
+
+| キー | 説明 |
+|------|------|
+| `<leader>mp` | インエディタプレビューをトグル (markview) |
+| `<leader>ms` | 分割ビューをトグル (markview) |
+| `<leader>mb` | ブラウザプレビューをトグル (markdown-preview) |
+
+### Zettelkasten (telescope-loam)
+
+| キー | 説明 |
+|------|------|
+| `gd` | リンク先へジャンプ（Markdown ファイルのみ） |
+| `<leader>zn` | ノートを検索 |
+| `<leader>zg` | ノート内を grep |
+| `<leader>zc` | 新規ノートを作成 |
+| `<leader>zb` | バックリンクを表示 |
+| `<leader>zi` | インデックスを表示 |
+| `<leader>zj` | ジャーナルを表示 |
+| `<leader>zt` | タグでフィルター |
+| `<leader>zT` | タイプでフィルター |
+| `<leader>zf` | カーソル下のリンクをフォロー |
+| `<leader>zd` | 今日のジャーナルを開く |
 
 ### LSP
 

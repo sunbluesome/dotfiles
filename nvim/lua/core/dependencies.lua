@@ -121,6 +121,14 @@ local tools = {
       debian = "npm install -g tree-sitter-cli",
     },
   },
+  {
+    -- fd: 高速なファイル検索 (telescope-loam で使用)
+    cmd = "fd",
+    install = {
+      macos = "brew install fd",
+      debian = "sudo apt-get update && sudo apt-get install -y fd-find && sudo ln -sf $(which fdfind) /usr/local/bin/fd",
+    },
+  },
 }
 
 -- 依存ツールのチェックと自動インストールを実行
