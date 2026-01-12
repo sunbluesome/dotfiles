@@ -5,6 +5,17 @@ local autocmd = vim.api.nvim_create_autocmd
 autocmd({ "BufReadPost" }, {
     pattern = { "*" },
     callback = function()
-        vim.api.nvim_exec('silent! normal! g`"zv', false)
+        vim.cmd('silent! normal! g`"zv')
+    end,
+})
+
+-- 外部でファイルが変更されたときに自動で再読み込み
+vim.opt.autoread = true
+autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
+    pattern = { "*" },
+    callback = function()
+        if vim.fn.mode() ~= "c" then
+            vim.cmd("checktime")
+        end
     end,
 })

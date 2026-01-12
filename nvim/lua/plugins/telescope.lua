@@ -119,6 +119,7 @@ return {
           ".venv",
           "venv",
           "%.egg%-info",
+          ".DS_Store",
         },
 
         -- キーマッピング

@@ -20,12 +20,11 @@
 --   :ClaudeCodeStatus     - 接続状態を確認
 --   :ClaudeCodeSend       - 選択範囲を Claude Code に送信
 --   :ClaudeCodeTreeAdd    - ファイルツリーからコンテキストに追加
---   :ClaudeCodeAdd        - 現在のファイル/選択範囲をコンテキストに追加
+--   (ファイル追加は Claude Code ターミナルで @ を使用)
 --
 -- デフォルトキーマップ:
---   <leader>ac - Claude Code ターミナルをトグル
---   <leader>as - 選択範囲を Claude Code に送信
---   <leader>af - 現在のファイルをコンテキストに追加
+--   <leader>cc - Claude Code ターミナルをトグル
+--   <leader>cs - 選択範囲を Claude Code に送信
 --
 -- 参考: https://github.com/coder/claudecode.nvim
 -- =============================================================================
@@ -74,29 +73,30 @@ return {
       },
 
       -- キーマップ設定
-      -- false にするとキーマップを無効化（自分で設定する場合）
-      keymaps = {
-        -- Claude Code ターミナルをトグル
-        toggle = {
-          normal = "<leader>cc",  -- ノーマルモードで <leader>ac
-        },
-        -- 選択範囲を Claude Code に送信
-        send_selection = {
-          visual = "<leader>cs",  -- ビジュアルモードで <leader>as
-        },
-        -- 現在のファイルをコンテキストに追加
-        add_file = {
-          normal = "<leader>ca",  -- ノーマルモードで <leader>af
-          visual = "<leader>ca",  -- ビジュアルモードで <leader>af（選択範囲を追加）
-        },
-      },
+      -- プラグイン組み込みのキーマップを無効化し、手動で設定
+      keymaps = false,
 
       -- diff 表示の設定
-      diff = {
-        -- diff ウィンドウを開いたときに自動的にフォーカスするか
-        auto_focus = true,
+      diff_opts = {
+        -- diff ウィンドウを開いたときにターミナルのフォーカスを維持するか
+        -- true: diff は表示するがフォーカスは Claude Code ターミナルに留まる
+        keep_terminal_focus = true,
       },
     })
+
+    -- 手動でキーマップを設定
+    -- <leader>cc : Claude Code ターミナルをトグル (normal mode)
+    -- <leader>cs : 選択範囲を Claude Code に送信 (visual mode)
+    -- <leader>ca : 現在のファイル/選択範囲をコンテキストに追加 (normal/visual mode)
+    local opts = { noremap = true, silent = true }
+
+    -- ターミナルをトグル
+    vim.keymap.set("n", "<leader>cc", "<cmd>ClaudeCode<CR>",
+      vim.tbl_extend("force", opts, { desc = "Toggle Claude Code terminal" }))
+
+    -- 選択範囲を送信
+    vim.keymap.set("v", "<leader>cs", "<cmd>ClaudeCodeSend<CR>",
+      vim.tbl_extend("force", opts, { desc = "Send selection to Claude Code" }))
   end,
 }
 

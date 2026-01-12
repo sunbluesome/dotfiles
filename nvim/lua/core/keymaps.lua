@@ -148,9 +148,7 @@ local term_opts = { silent = true }
 
 -- ターミナルモードからノーマルモードに戻る
 -- 注意: Claude Code 内では ESC は Claude Code に渡される
--- ターミナルから抜けるには以下のいずれかを使用
-Map("t", "<ESC><ESC>", "<C-\\><C-n>", term_opts)    -- ESC 2回でノーマルモードへ
-Map("t", "<C-[><C-[>", "<C-\\><C-n>", term_opts)    -- Ctrl+[ 2回でノーマルモードへ
+Map("t", "<C-[>", "<C-\\><C-n>", term_opts)         -- Ctrl+[ でノーマルモードへ
 
 -- ウィンドウ移動 (Ctrl+hjkl)
 -- 注意: Claude Code が Ctrl+h/j/k/l を使用している場合は動作しない

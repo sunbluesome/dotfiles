@@ -21,7 +21,8 @@ return {
   -- 遅延読み込み: 指定したキーを押したときに読み込む
   -- これにより起動時間を短縮できる
   keys = {
-    { "<C-t>", desc = "Toggle terminal" },
+    { "<leader>tt", desc = "Toggle terminal" },
+    { "<leader>tl", desc = "Toggle lazygit" },
   },
 
   -- プラグイン読み込み後に実行される設定
