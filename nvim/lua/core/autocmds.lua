@@ -19,3 +19,11 @@ autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
         end
     end,
 })
+
+-- ターミナルサイズ変更時にウィンドウサイズを均等化
+autocmd({ "VimResized" }, {
+    pattern = { "*" },
+    callback = function()
+        vim.cmd("wincmd =")
+    end,
+})

@@ -130,6 +130,10 @@ end)
 Map("n", "<A-h>", ":bprevious<CR>")
 Map("n", "<A-l>", ":bnext<CR>")
 
+-- ウィンドウサイズ管理
+Map("n", "<leader>w=", "<C-w>=", { noremap = true, silent = true, desc = "ウィンドウサイズを均等化" })
+Map("n", "<leader>wm", "<C-w>_<C-w>|", { noremap = true, silent = true, desc = "ウィンドウを最大化" })
+
 -- search
 Map("n", "<ESC><ESC>", ":nohlsearch<CR><ESC>")
 
