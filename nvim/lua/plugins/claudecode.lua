@@ -50,8 +50,9 @@ return {
       auto_start = true,
 
       -- ターミナルで実行するコマンド
-      -- Claude Code CLI のパスを明示的に指定
-      terminal_cmd = "claude",
+      -- ログインシェル経由で起動（PATH を正しく読み込むため）
+      -- macOS: zsh -lc claude, devcontainer: bash -lc claude
+      terminal_cmd = (os.getenv("SHELL") or "/bin/bash") .. " -lc claude",
 
       -- ターミナル設定
       terminal = {

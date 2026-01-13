@@ -79,6 +79,8 @@ local function is_remote_environment()
       or vim.env.SSH_CLIENT ~= nil
       or vim.env.REMOTE_CONTAINERS ~= nil
       or vim.env.CODESPACES ~= nil
+      or vim.env.CONTAINER ~= nil                 -- 汎用コンテナ検出
+      or vim.fn.filereadable("/.dockerenv") == 1  -- Docker コンテナ検出
       or vim.fn.has("wsl") == 1
 end
 

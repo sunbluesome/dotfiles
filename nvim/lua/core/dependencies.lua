@@ -129,6 +129,13 @@ local tools = {
       debian = "sudo apt-get update && sudo apt-get install -y fd-find && sudo ln -sf $(which fdfind) /usr/local/bin/fd",
     },
   },
+  {
+    -- pngpaste: クリップボードから画像を取得 (img-clip.nvim で使用、macOS のみ)
+    cmd = "pngpaste",
+    install = {
+      macos = "brew install pngpaste",
+    },
+  },
 }
 
 -- 依存ツールのチェックと自動インストールを実行

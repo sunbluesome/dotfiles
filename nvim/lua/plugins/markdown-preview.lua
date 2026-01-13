@@ -64,15 +64,26 @@ return {
       -- プレビューサーバーのポートを固定
       vim.g.mkdp_port = "8090"
 
+      -- サーバーを全インターフェースにバインド（重要）
+      vim.g.mkdp_host = "0.0.0.0"
+
+      -- 表示されるURLのIPアドレス（ポートフォワーディング用）
+      vim.g.mkdp_open_ip = "127.0.0.1"
+
       -- 外部からのアクセスを許可
       vim.g.mkdp_open_to_the_world = 1
 
-      -- ブラウザを開かない（コンテナ内にはブラウザがない）
-      -- 手動で http://localhost:8090 にアクセス
-      vim.g.mkdp_browser = "echo"
+      -- Vimscript関数を定義（mkdp_browserfuncはVim関数名を要求）
+      vim.cmd([[
+        function! MkdpBrowserFunc(url)
+          " OSC 52 でクリップボードにコピー
+          let l:osc52 = "\e]52;c;" . system('printf ' . shellescape(a:url) . ' | base64 | tr -d "\n"') . "\x07"
+          call chansend(v:stderr, l:osc52)
+          echom "Preview URL copied: " . a:url
+        endfunction
+      ]])
 
-      -- 起動時にURLを表示
-      vim.g.mkdp_echo_preview_url = 1
+      vim.g.mkdp_browserfunc = "MkdpBrowserFunc"
     else
       -- ローカル環境の設定
       vim.g.mkdp_port = ""
